@@ -1,0 +1,675 @@
+<html>
+  <%- include("./partials/head.ejs") %>
+</html>
+<body id="questions-page">
+  <%- include("./partials/nav.ejs") %>
+  <div class="right center">
+    <p class="info" style="margin-top: 50px;">
+      Your test has no questions! Use the drop-down below to insert a question.
+    </p>
+    <form action="" method="POST" class="center" >
+      <div class="survey-questions" style="width: 100%;"></div>
+      <div class="questions" style="width: 100%;"></div>
+    </form>
+    <div class="insert">
+      <div class="column" style="margin-left: 20px;">
+        <strong style="font-size: 18px;color: white;">Insert</strong>
+        <select id="" style="font-size: 16px;">
+          <option selected></option>
+          <optgroup label="Graded Question">
+            <option value="mco">Multiple choice (choose one)</option>
+            <option value="mcm">Multiple choice (choose many)</option>
+            <option value="tf">True/False</option>
+            <option value="matching">Matching</option>
+            <option value="fib">Fill in the blank</option>
+            <option value="essay">Essay</option>
+          </optgroup>
+          <optgroup label="Survey/Ungraded Question">
+              <option value="survey-mco">Multiple choice (choose one)</option>
+              <option value="survey">Multiple choice (choose many)</option>
+              <option value="survey">True/False</option>
+              <option value="survey">Matching</option>
+              <option value="survey-answer">Answer</option>
+              <option value="survey">Long answer</option>
+          </optgroup>
+          <optgroup label="Other">
+              <option value="other">Text block</option>
+              <option value="other">Question pool</option>
+              <option value="other">Question from another test</option>
+              <option value="other">Question from file</option>
+          </optgroup>
+        </select>
+      </div>
+      <div class="column">
+        <button type="button" disabled>Undo</button>
+        <button type="button" disabled>Redo</button>
+        <button type="submit" class="no-btn" style="color: white;"><small>Save?</small></button>
+      </div>
+    </div>
+    <template class="survey-answer">
+      <div class="ques">
+        <p class="number">1</p>
+        <input type="text" value="Your Question">
+      </div>
+    </template>
+    <div class="ques ex mco" style="display: none;">
+      <input type="hidden" name="type" value="mco">
+      <div class="ques-mods">
+        <span class="ques-add-before" style="transform: translateY(-50%);">+</span>
+        <span class="ques-del" style="background-color: red;">-</span>
+        <span class="ques-add-after" style="transform: translateY(50%);">+</span>
+      </div>
+      <div class="ques_row">
+        <div class="ques_row_col">
+          <div style="display: flex;align-items: center;">
+            <span class="ques-pos hidden ques-pos-left" style="font-size: 12px;"><i class="fas fa-arrows-alt-v"></i></span>
+            <strong>1.</strong>
+            <span class="ques-pos hidden ques-pos-right" style="font-size: 12px;"><i class="fas fa-arrows-alt-v"></i></span>
+          </div>
+          <input type="text" name="name" class="ques-name no-input" value="Question">
+        </div>
+        <div class="ques_row_col" style="text-align: right;">
+          <p class="shuffle">
+            <input type="checkbox" name='shuffle'>
+            <i class="fas fa-random"></i>
+          </p>
+          <input type="number" value="1" name="points" id="" class="points">
+          <label style="margin-left: 2px;"><small>points</small></label>
+        </div>
+      </div>
+      <div>
+        <div class="option">
+          <p class="move-option hidden"><i class="fas fa-arrows-alt-v"></i></p>
+          <input type="radio" name="crctAns" value="Choice 1" id="">
+          <input type="text" name="option1" value="Choice 1">
+          <p class="delete-option"><i class="fas fa-trash-alt"></i></p>
+        </div>
+        <div class="option">
+          <p class="move-option hidden"><i class="fas fa-arrows-alt-v"></i></p>
+          <input type="radio" name="crctAns" value="Choice 2" id="">
+          <input type="text" name="option2" value="Choice 2">
+          <p class="delete-option"><i class="fas fa-trash-alt"></i></p>
+        </div>
+        <div class="option">
+          <p class="move-option hidden"><i class="fas fa-arrows-alt-v"></i></p>
+          <input type="radio" name="crctAns" value="Choice 3" id="" checked>
+          <input type="text" name="option3" value="Choice 3">
+          <p class="delete-option"><i class="fas fa-trash-alt"></i></p>
+        </div>
+        <div class="option">
+          <p class="move-option hidden"><i class="fas fa-arrows-alt-v"></i></p>
+          <input type="radio" name="crctAns" value="Choice 4" id="">
+          <input type="text" name="option4" value="Choice 4">
+          <p class="delete-option"><i class="fas fa-trash-alt"></i></p>
+        </div>
+        <div class="add-new-option hidden">
+          <input type="checkbox" style="margin-right: 7px;" disabled>
+          <label style="color: gray;">Click to add a new answer choice</label>
+        </div>
+      </div>
+      <div class="hidden last-row">
+        <input type="checkbox" name="" id="show-exp">
+        <label for="show-exp" style="font-size: 12px;">Show explanation</label>
+        <select name="" id="" style="margin-left: 10px;">
+          <option value="">abc</option>
+        </select>
+      </div>
+    </div>
+    <div class="ques ex mcm" style="display: none;">
+      <input type="hidden" name="type" value="mcm">
+      <div class="ques-mods">
+        <span class="ques-add-before" style="transform: translateY(-50%);">+</span>
+        <span class="ques-del" style="background-color: red;">-</span>
+        <span class="ques-add-after" style="transform: translateY(50%);">+</span>
+      </div>
+      <div class="ques_row">
+        <div class="ques_row_col">
+          <div style="display: flex;align-items: center;">
+            <span class="ques-pos hidden ques-pos-left" style="font-size: 12px;"><i class="fas fa-arrows-alt-v"></i></span>
+            <strong>1.</strong>
+            <span class="ques-pos hidden ques-pos-right" style="font-size: 12px;"><i class="fas fa-arrows-alt-v"></i></span>
+          </div>
+          <input type="text" name="name" class="ques-name no-input" value="Question">
+        </div>
+        <div class="ques_row_col" style="text-align: right;">
+          <p class="shuffle">
+            <input type="checkbox" name='shuffle'>
+            <i class="fas fa-random"></i>
+          </p>
+          <input type="number" value=1 name="points" id="" class="points">
+          <label style="margin-left: 2px;"><small>points</small></label>
+        </div>
+      </div>
+      <div>
+        <div class="option">
+          <p class="move-option hidden"><i class="fas fa-arrows-alt-v"></i></p>
+          <input type="checkbox" name="crctAns" value="Choice 1" id="">
+          <input type="text" name="option1" value="Choice 1">
+          <p class="delete-option"><i class="fas fa-trash-alt"></i></p>
+        </div>
+        <div class="option">
+          <p class="move-option hidden"><i class="fas fa-arrows-alt-v"></i></p>
+          <input type="checkbox" name="crctAns" value="Choice 2" id="">
+          <input type="text" name="option2" value="Choice 2">
+          <p class="delete-option"><i class="fas fa-trash-alt"></i></p>
+        </div>
+        <div class="option">
+          <p class="move-option hidden"><i class="fas fa-arrows-alt-v"></i></p>
+          <input type="checkbox" name="crctAns" value="Choice 3" id="" checked>
+          <input type="text" name="option3" value="Choice 3">
+          <p class="delete-option"><i class="fas fa-trash-alt"></i></p>
+        </div>
+        <div class="option">
+          <p class="move-option hidden"><i class="fas fa-arrows-alt-v"></i></p>
+          <input type="checkbox" name="crctAns" value="Choice 4" id="">
+          <input type="text" name="option4" value="Choice 4">
+          <p class="delete-option"><i class="fas fa-trash-alt"></i></p>
+        </div>
+        <div class="option">
+          <p class="move-option hidden"><i class="fas fa-arrows-alt-v"></i></p>
+          <input type="checkbox" name="crctAns" value="Choice 5" id="">
+          <input type="text" name="option5" value="Choice 5">
+          <p class="delete-option"><i class="fas fa-trash-alt"></i></p>
+        </div>
+        <div class="add-new-option hidden">
+          <input type="checkbox" style="margin-right: 7px;" disabled>
+          <label style="color: gray;">Click to add a new answer choice</label>
+        </div>
+      </div>
+      <div class="hidden last-row">
+        <div>
+          <input type="checkbox" name="" id="show-exp">
+          <label for="show-exp" style="font-size: 12px;margin-right: 5px;">Show explanation</label>
+          <input type="checkbox" name="" id="show-exp">
+          <label for="show-exp" style="font-size: 12px;">Give partial credit</label>
+        </div>
+        <select name="" id="" style="margin-left: 10px;">
+          <option value="">abc</option>
+        </select>
+      </div>
+    </div> 
+    <div class="ques ex tf" style="display: none;">
+      <input type="hidden" name="type" value="tf">
+      <div class="ques-mods">
+        <span class="ques-add-before" style="transform: translateY(-50%);">+</span>
+        <span class="ques-del" style="background-color: red;">-</span>
+        <span class="ques-add-after" style="transform: translateY(50%);">+</span>
+      </div>
+      <div class="ques_row">
+        <div class="ques_row_col">
+          <div style="display: flex;align-items: center;">
+            <span class="ques-pos hidden ques-pos-left" style="font-size: 12px;"><i class="fas fa-arrows-alt-v"></i></span>
+            <strong>1.</strong>
+            <span class="ques-pos hidden ques-pos-right" style="font-size: 12px;"><i class="fas fa-arrows-alt-v"></i></span>
+          </div>
+          <input type="text" name="name" class="ques-name no-input" value="Question">
+        </div>
+        <div class="ques_row_col" style="text-align: right;">
+          <p class="shuffle">
+            <input type="checkbox" name='shuffle'>
+            <i class="fas fa-random"></i>
+          </p>
+          <input type="number" value=1 name="points" id="" class="points">
+          <label style="margin-left: 2px;"><small>points</small></label>
+        </div>
+      </div>
+      <div>
+        <div class="option">
+          <input type="radio" name="" id="">
+          <input type="text" value="True">
+        </div>
+        <div class="option">
+          <input type="radio" name="" id="">
+          <input type="text" value="False">
+        </div>  
+      </div>
+      <div class="hidden last-row">
+        <div>
+          <input type="checkbox" name="" id="show-exp">
+          <label for="show-exp" style="font-size: 12px;margin-right: 5px;">Show explanation</label>
+        </div>
+        <select name="" id="" style="margin-left: 10px;">
+          <option value="">abc</option>
+        </select>
+      </div>
+    </div> 
+    <div class="ques ex matching" style="display: none;">
+      <div class="ques-mods">
+        <span class="ques-add-before" style="transform: translateY(-50%);">+</span>
+        <span class="ques-del" style="background-color: red;">-</span>
+        <span class="ques-add-after" style="transform: translateY(50%);">+</span>
+      </div>
+      <div class="ques_row">
+        <div class="ques_row_col">
+          <div style="display: flex;align-items: center;">
+            <span class="ques-pos hidden ques-pos-left" style="font-size: 12px;"><i class="fas fa-arrows-alt-v"></i></span>
+            <strong>1.</strong>
+            <span class="ques-pos hidden ques-pos-right" style="font-size: 12px;"><i class="fas fa-arrows-alt-v"></i></span>
+          </div>
+          <input type="text" name="name" class="ques-name no-input" value="Question">
+        </div>
+        <div class="ques_row_col" style="text-align: right;">
+          <p class="shuffle">
+            <input type="checkbox" name='shuffle'>
+            <i class="fas fa-random"></i>
+          </p>
+          <input type="number" value="1" name="points" id="" class="points">
+          <label style="margin-left: 2px;"><small>points</small></label>
+        </div>
+      </div>
+      <div style="display: grid;grid-template-columns: 44% 44%;justify-content: space-between;">
+        <div class="col-1">
+          <div class="option">
+            <p class="move-option hidden"><i class="fas fa-arrows-alt-v"></i></p>
+            <Select>
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+            </Select>
+            <input type="text" value="Cat">
+            <p class="delete-option"><i class="fas fa-trash-alt"></i></p>
+          </div>
+          <div class="option">
+            <p class="move-option hidden"><i class="fas fa-arrows-alt-v"></i></p>
+            <Select>
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+            </Select>
+            <input type="text" value="Whale">
+            <p class="delete-option"><i class="fas fa-trash-alt"></i></p>
+          </div>
+          <div class="option">
+            <p class="move-option hidden"><i class="fas fa-arrows-alt-v"></i></p>
+            <Select>
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+            </Select>
+            <input type="text" value="Gecko">
+            <p class="delete-option"><i class="fas fa-trash-alt"></i></p>
+          </div>
+          <div class="option">
+            <p class="move-option hidden"><i class="fas fa-arrows-alt-v"></i></p>
+            <Select>
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+            </Select>
+            <input type="text" value="Spider">
+            <p class="delete-option"><i class="fas fa-trash-alt"></i></p>
+          </div>
+          <div class="add-new-option hidden">
+            <div style="margin-right: 20px;"></div>
+            <label style="color: gray;">Click to add a new matching sub-question</label>
+          </div>
+        </div>
+        <div class="col-2" style="display: flex;">
+          <p class="shuffle" style="margin-top: 20px;">
+            <input type="checkbox" name='shuffle' checked>
+            <i class="fas fa-random"></i>
+          </p>
+          <div>
+            <div class="option">
+              <p class="move-option hidden"><i class="fas fa-arrows-alt-v"></i></p>
+              <p><span>1. </span><input type="text" value="Mammal"></p>
+              <p class="delete-option"><i class="fas fa-trash-alt"></i></p>
+            </div>
+            <div class="option">
+              <p class="move-option hidden"><i class="fas fa-arrows-alt-v"></i></p>
+              <p><span>2. </span><input type="text" value="Insect"></p>
+              <p class="delete-option"><i class="fas fa-trash-alt"></i></p>
+            </div>
+            <div class="option">
+              <p class="move-option hidden"><i class="fas fa-arrows-alt-v"></i></p>
+              <p><span>3. </span><input type="text" value="Arachnid"></p>
+              <p class="delete-option"><i class="fas fa-trash-alt"></i></p>
+            </div>
+            <div class="option">
+              <p class="move-option hidden"><i class="fas fa-arrows-alt-v"></i></p>
+              <p><span>4. </span><input type="text" value="Reptile"></p>
+              <p class="delete-option"><i class="fas fa-trash-alt"></i></p>
+            </div>
+            <div class="add-new-option hidden">
+              <div style="margin-right: 20px;"></div>
+              <label style="color: gray;">Click to add a new matching answer option</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="hidden last-row">
+        <div>
+          <input type="checkbox" name="" id="show-exp">
+          <label for="show-exp" style="font-size: 12px;margin-right: 5px;">Show explanation</label>
+          <input type="checkbox" name="" id="show-exp">
+          <label for="show-exp" style="font-size: 12px;">Give partial credit</label>
+          <label for="">Match Style</label>
+          <select name="" id="">
+            <option value="">Numeric</option>
+            <option value="">Text</option>
+          </select>
+        </div>
+        <select name="" id="" style="margin-left: 10px;">
+          <option value="">abc</option>
+        </select>
+      </div>
+    </div>
+    <div class="ques ex fib" style="display: none;">
+      <div class="ques-mods">
+        <span class="ques-add-before" style="transform: translateY(-50%);">+</span>
+        <span class="ques-del" style="background-color: red;">-</span>
+        <span class="ques-add-after" style="transform: translateY(50%);">+</span>
+      </div>
+      <div class="ques_row">
+        <div class="ques_row_col">
+          <div style="display: flex;align-items: center;">
+            <span class="ques-pos hidden ques-pos-left" style="font-size: 12px;"><i class="fas fa-arrows-alt-v"></i></span>
+            <strong>1.</strong>
+            <span class="ques-pos hidden ques-pos-right" style="font-size: 12px;"><i class="fas fa-arrows-alt-v"></i></span>
+          </div>
+          <input type="text" name="name" class="ques-name no-input" value="Question">
+        </div>
+        <div class="ques_row_col" style="text-align: right;">
+          <p class="shuffle">
+            <input type="checkbox" name='shuffle'>
+            <i class="fas fa-random"></i>
+          </p>
+          <input type="number" value="1" name="points" id="" class="points">
+          <label style="margin-left: 2px;"><small>points</small></label>
+        </div>
+      </div>
+      <div>
+        <input type="text" name="" id="" value="Correct answer text">
+        <div><span>Alternative Answer</span><input type="text" value="Choice 1"></div>
+        <div class="add-new-option hidden" style="display: flex;">
+          <label style="color: gray;"><small>Alternative Answer</small></label>
+          <button type="button" style="color: gray;margin-left: 5px;font-size: 16px;" class="no-btn">Add a possible answer</button>
+        </div>
+      </div>
+      <div class="hidden last-row">
+        <div>
+          <input type="checkbox" name="" id="show-exp">
+          <label for="show-exp" style="font-size: 12px;margin-right: 5px;">Show explanation</label>
+          <input type="checkbox" name="" id="show-exp">
+          <label for="show-exp" style="font-size: 12px;">Case sensitive grading</label>
+        </div>
+        <select name="" id="" style="margin-left: 10px;">
+          <option value="">abc</option>
+        </select>
+      </div>
+    </div> 
+    <div class="ques ex essay" style="display: none;">
+      <div class="ques-mods">
+        <span class="ques-add-before" style="transform: translateY(-50%);">+</span>
+        <span class="ques-del" style="background-color: red;">-</span>
+        <span class="ques-add-after" style="transform: translateY(50%);">+</span>
+      </div>
+      <div class="ques_row">
+        <div class="ques_row_col">
+          <div style="display: flex;align-items: center;">
+            <span class="ques-pos hidden ques-pos-left" style="font-size: 12px;"><i class="fas fa-arrows-alt-v"></i></span>
+            <strong>1.</strong>
+            <span class="ques-pos hidden ques-pos-right" style="font-size: 12px;"><i class="fas fa-arrows-alt-v"></i></span>
+          </div>
+          <input type="text" name="name" class="ques-name no-input" value="Question">
+        </div>
+        <div class="ques_row_col" style="text-align: right;">
+          <p class="shuffle">
+            <input type="checkbox" name='shuffle'>
+            <i class="fas fa-random"></i>
+          </p>
+          <input type="number" value="1" name="points" id="" class="points">
+          <label style="margin-left: 2px;"><small>points</small></label>
+        </div>
+      </div>
+      <div>
+        <textarea name="" id="" style="width: 100%;min-height: 200px;"></textarea>
+      </div>
+      <div class="hidden last-row">
+        <div>
+          <input type="checkbox" name="" id="show-exp">
+          <label for="show-exp" style="font-size: 12px;margin-right: 5px;">Show explanation</label>
+        </div>
+        <select name="" id="" style="margin-left: 10px;">
+          <option value="">abc</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</body>
+
+<script>
+  const insert = document.querySelector('.insert select')
+  const exQues = document.querySelector('.ques-ex')
+  const form = document.querySelector('form')
+  const questionsData = JSON.parse('<%- JSON.stringify(questions) %>');
+  if(questionsData.length !== 0) questionsData.forEach(quesData => {
+    const newQues = document.querySelector(`.ex.ques.${quesData.type}`).cloneNode(true)
+    const newQuesOptions = Array.from(newQues.querySelectorAll('input[type="text"]')).filter(input => input.name.includes('option'))
+    newQuesOptions.forEach((option, i) =>{ 
+      option.value = quesData.options[i]
+    })
+    newQues.querySelectorAll('input').forEach(input => {
+      if(input.name === 'crctAns') {
+        input.checked = quesData.crctAns.includes(input.nextElementSibling.value)
+      console.log(quesData.crctAns.includes(input.value))
+      console.log('object')
+    } else if(input.type === 'checkbox') {
+      input.checked = input.hasOwnProperty(input.name)
+    } else if(input.name.includes('option')) {
+      return
+    } else {
+      input.value = quesData[input.name]
+    }
+  })
+  addQuesEvents(newQues)
+  newQues.style.display = ''
+  newQues.classList.remove('ex')
+
+  form.append(newQues)
+})
+
+form.addEventListener('submit', e => {
+  e.preventDefault()
+  console.log(new URLSearchParams(Array.from(new FormData(form))).toString())
+  const questionsNode = Array.from(document.querySelectorAll('.ques:not(.ex)'))
+  let questionsData = []
+  questionsNode.forEach(quesNode => {
+    let quesData = {}
+    Array.from(quesNode.querySelectorAll('input')).forEach(input => {
+      let input2 = input.cloneNode(true)
+      input2.name = input2.name.replaceAll(/\d+/g, '')
+      if(input2.name) {
+        if(input2.name === 'crctAns') {
+          if(input2.checked) {
+            if(!quesData.crctAns) quesData.crctAns = []
+            quesData.crctAns.push(input.nextElementSibling.value)
+            console.log(input2.value)
+          }
+        } else if(input2.type === 'checkbox') {
+            quesData[input2.name] = input.checked
+        } else if(input2.name === 'option') {
+            if(!quesData.options) quesData.options = []
+            quesData.options.push(input2.value)
+        } else {
+            quesData[input2.name] = input2.value
+        }
+      } 
+    })
+    if(Object.keys(quesData).length !== 0) questionsData.push(quesData)
+  })
+  fetch(`${window.location.pathname}`, {
+    method: 'post',
+    body: JSON.stringify(questionsData),
+  })
+  .then(data = console.log('success'))
+})
+
+function addQuesEvents(ques) {
+  const id = Date.now()
+  ques.querySelectorAll('input').forEach(input => input.name += id)
+  ques.querySelector('.ques-del').addEventListener('click', () => ques.remove())
+  ques.querySelector('.ques-add-before').addEventListener('click', () => {
+    const anotherQues = ques.cloneNode(true)
+    addQuesEvents(anotherQues)
+    ques.before(anotherQues)
+  })
+  ques.querySelector('.ques-add-after').addEventListener('click', () => {
+    const anotherQues = ques.cloneNode(true)
+    addQuesEvents(anotherQues)
+    ques.after(anotherQues)
+  })
+  ques.querySelectorAll('.delete-option').forEach(deleteOption => deleteOption.addEventListener('click', () => deleteOption.closest('.option').remove()))
+   ques.querySelectorAll('.add-new-option').forEach(addNewOption => {
+     if(addNewOption) addNewOption.addEventListener('click', e => {
+       const newOption = addNewOption.previousElementSibling.cloneNode(true)
+       newOption.querySelector('input[type="text"]').value = `Choice ${addNewOption.parentNode.childElementCount}`
+       newOption.querySelector('.delete-option').addEventListener('click', e => newOption.remove())
+       addNewOption.before(newOption)   
+     })
+   })
+}
+
+insert.addEventListener('change', e => {
+  if(!e.target.value.includes('survey')) {
+    const newQues = document.querySelector('.ques.ex.' + e.target.value).cloneNode(true)
+    newQues.classList.remove('ex')
+    newQues.style.display = ''
+    addQuesEvents(newQues)
+    form.querySelector('.questions').append(newQues)
+  } else {
+    if(e.target.value === 'survey-mco') {
+      const newQues = document.querySelector('.ques.ex.' + 'mco').cloneNode(true)
+      insert.value = ''
+      newQues.classList.remove('ex')
+      newQues.style.display = ''
+      newQues.querySelector('.points').parentNode.remove()
+      addQuesEvents(newQues)
+      form.querySelector('.survey-questions').append(newQues)
+    } else if(e.target.value === 'survey-answer') {
+      const template = document.querySelector('.survey-answer')
+      const newQues = template.content.cloneNode(true)
+      form.querySelector('.survey-questions').append(newQues)
+      console.log('object')
+    }
+  }
+  insert.value = ''
+})
+// addQuestionsBefore.forEach(addQuestionBefore => addQuestionBefore.addEventListener('click', () => {
+//   const ques = addQuestionBefore.closest('.ques')
+//   const newQues = ques.cloneNode(true)
+//   addEvents(newQues)
+//   ques.parentNode.insertBefore(newQues, ques)
+// }))
+
+// addQuestionsAfter.forEach(addQuestionsAfter => addQuestionsAfter.addEventListener('click', () => {
+//   const ques = addQuestionsAfter.closest('.ques')
+//   const newQues = ques.cloneNode(true)
+//   addEvents(newQues)
+//   ques.after(newQues)
+// }))
+
+function addEvents(ques) {
+  const moveOption = ques.querySelector('.move-option')
+  const deleteOption = ques.querySelector('.delete-option')
+  const deleteQuestion = ques.querySelector('.ques-del')
+  const addQuestionBefore = ques.querySelector('.ques-add-before')
+  const addQuestionAfter = ques.querySelector('.ques-add-after')
+
+  deleteQues.addEventListener('click', () => deleteQues.closest('.ques').remove())
+
+  deleteOption.addEventListener('click', () => deleteOption.parentNode.remove())
+
+  ques.addEventListener('click', () => {
+    hiddenElements.forEach(hiddenElem => {
+      hiddenElem.style.transition = 'all .5s ease'
+      hiddenElem.style.maxWidth = '9999'
+      hiddenElem.style.maxHeight = '9999'
+      hiddenElem.style.opacity = '1'
+      hiddenElem.style.margin = ''
+    })
+  })
+}
+
+// addEvents(document.querySelector('.mco'))
+
+// const hiddenElements = document.querySelectorAll('.hidden')
+// hiddenElements.forEach(hiddenElem => {
+//   hiddenElem.style.maxWidth = '0'
+//   hiddenElem.style.maxHeight = '0'
+//   hiddenElem.style.opacity = '0'
+//   hiddenElem.style.margin = '0'
+// })
+// function swap(nodeA, nodeB) {
+  //   const parentA = nodeA.parentNode;
+  //   const siblingA = nodeA.nextSibling === nodeB ? nodeA : nodeA.nextSibling;
+  
+  //   nodeB.parentNode.insertBefore(nodeA, nodeB);
+  //   parentA.insertBefore(nodeB, siblingA);
+  // };
+  
+  // moveOptions.forEach(moveOption => {
+  //   const ques = moveOption.closest('.ques');
+  //   const option = moveOption.closest('.option');
+  //   let moveOptionHandler;
+    
+  //   function placeOption(e) {
+  //     const filler = option.parentNode.querySelector('.filler')
+  //     option.style = ''
+  //     // console.log('up')
+  //     if(filler) filler.replaceWith(option)
+  //     window.removeEventListener('mousemove', moveOptionHandler)
+  //     window.removeEventListener('mousemove', startMoveOption) 
+  //     document.body.style = ''
+  //   }
+  
+  //   function startMoveOption() {
+  //     const div = document.createElement('div')
+  //     div.classList.add('filler') 
+  //     div.style.width = option.offsetWidth + 'px'
+  //     div.style.height = option.offsetHeight + 'px'
+  //     div.style.margin = window.getComputedStyle(option).getPropertyValue('margin')
+  //     option.after(div)
+      
+  //     document.body.style.userSelect = 'none'
+  //     option.style.width = option.offsetWidth + 'px'
+  //     option.style.position = 'absolute'
+  //     option.style.marginTop = '0'
+  //     option.style.zIndex = '9999'
+  //     if(document.body.scrollHeight - window.scrollY === window.innerHeight) window.scrollBy(0, -20)
+  //   }
+  
+  //   moveOption.addEventListener('mousedown', e => {
+  //     const yOnOption = e.offsetY
+  
+  //     window.addEventListener('mousemove', startMoveOption, {once: true})
+  
+  //     let totalY = 0;
+  //     let moveY = 0;
+  
+  //     window.addEventListener('mousemove', moveOptionHandler = e => {
+  //       const otherOptions = Array.from(ques.querySelectorAll('.option')).filter(currOption => currOption !== option)
+  //       const OtherOptionsTop = otherOptions.map(otherOptions => otherOptions.getBoundingClientRect().top)
+  //       const optionTop = e.clientY
+  
+  //       totalY += Math.abs(ev.movementY);
+  //       moveY += ev.movementY;
+  
+  //       option.style.top = (e.clientY - ques.getBoundingClientRect().top - yOnOption) + 'px'
+  
+  //       if(OtherOptionsTop.includes(optionTop) ) {
+    //         const optionToSwap = otherOptions[OtherOptionsTop.indexOf(optionTop)]
+    //         const filler = ques.querySelector('.filler')
+    //         swap(optionToSwap, filler)
+    //       }
+    //       if(optionTop <= 0) window.scrollTo({top: 0, left: 0, behavior: "smooth"})
+    //       // if(optionTop >= window.innerHeight) window.scrollBy({top: -100, left: 0, behavior: "smooth"})
+    //     })
+    //     window.addEventListener('mouseup', placeOption, {once: true})
+    //   })
+    // })
+  </script>

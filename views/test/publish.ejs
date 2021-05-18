@@ -1,0 +1,57 @@
+<html lang="en">
+  <%- include("./partials/head.ejs") %>
+
+  <body>
+    <%- include("./partials/nav.ejs") %>
+
+    <div class="right center">
+      <% if(!locals.published) { %> 
+        <div>
+          <h1>Publish <%= name %> </h1>
+          <p>You need to publish your test to make it available for your students to take. You can <a href="/q/<%= position %>?preview" style="color: darkblue;text-decoration: underline;">preview your test</a> to make sure it looks good. It's OK to edit your test after you publish (but it may cause inconsistencies in the results).</p>
+          <h1>Ready to publish?</h1>
+          <p>We didn't find any problems with your test. Just click Publish and you're good to go.</p>
+          <div class="center"><form action="publish" method="POST" style="text-align: center;"><input type="submit" value="Publish" style="padding: 5px;"></form></div>
+        </div>
+      <% } else { %> 
+        <div>
+          <div>
+            <div class="center" style="padding: 5px;;background-color: #FFFBB1;"> 
+              <p><strong>test is published and available at:</strong></p>
+              <strong><a class="norm-link" href="/q/<%= position %>">testmoz.com/<%= position %> </a></strong>
+            </div>
+            <p>Email that URL to your test takers (or post the URL on your class website) so they can take the test. The results will appear on the <a href="report" class="norm-link">Results</a> page.</p>
+            <label>Current Status: </label>
+            <div>
+              <div>
+                <div>
+                  <input type="radio" checked>
+                  <label for=""><strong>Open</strong></label>
+                  <p>This allows students to take the test.</p>
+                </div>
+                <div>
+                  <input type="radio">
+                  <label for=""><strong>Scheduled</strong></label>
+                  <p>Pick an interval of time when students can take the test.</p>
+                </div>
+              </div>
+              <div>
+                <input type="radio">
+                <label for=""><strong>Closed</strong></label>
+                <p>This will prevent anyone from taking the test.</p>
+                <button>Choose a date</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% } %> 
+    </div>
+
+    <script>
+      function publish() {
+        const link = document.createElement('a')
+        fetch('publish', {method: 'post'}).then()
+      }
+    </script>
+  </body>
+</html>

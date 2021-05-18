@@ -1,0 +1,65 @@
+<html lang="en">
+  <%- include("./partials/head.ejs") %>
+
+  <body class="results">
+    <%- include("./partials/nav.ejs") %>
+
+    <div class="right center">
+      <% if(!locals.published) { %> 
+        <div>
+          You must <a href="publish">publish</a> the test before reports are generated.
+        </div>
+      <% } else { %> 
+        <div style="display: grid;grid-template-columns: 1fr 1fr 1fr;width: 100%;padding: 10px;background-color: white;text-align: center;">
+          <div>
+            <strong>Average Score</strong>
+            <p><%= avgScore %></p>
+          </div>
+          <div>
+            <strong>Average Time</strong>
+            <p><%= dateFormat(avgTime, 'MM:ss') %></p>
+          </div>
+          <div>
+            <strong>Responses</strong>
+            <p><%= students.length %></p>
+          </div>
+          <!-- <div>
+            <strong>Histogram</strong>
+          </div> -->
+        </div>
+        <h1><%= name %> Results</h1>
+        <div class="row-head">
+          <input type="checkbox" name="" id="">
+          <p class="name">Name</p>
+          <p class="usual">Score</p>
+          <p class="usual">Started On</p>
+          <p class="usual">Finished On</p>
+          <p class="usual">Time</p>
+          <div>
+            <% questions.forEach((question, i) => { %>
+              <span class="correct"><%= i + 1 %></span>
+            <% }) %> 
+          </div>
+        </div>
+        <% students.forEach(student => { %>
+          <div class="row">
+            <input type="checkbox" name="" id="">
+            <p class="name"><%= student.name %></p>
+            <p class="usual" style="background: #FDDCB7;"><%= student.score %></p>
+            <p class="usual"><%= dateFormat(student.start, 'yyyy-mm-dd h:MM TT') %></p>
+            <p class="usual"><%= dateFormat(student.finish, 'yyyy-mm-dd h:MM TT') %></p>
+            <p class="usual"><%= dateFormat(student.time, 'MM:ss') %></p>
+            <% student.answers.forEach(answer => { %>
+              <% if(answer.correct === 'right') { %> 
+                <p style="color: green;" class="correct"><i class="fas fa-check"></i></p>
+              <% } else if(answer.correct === 'wrong') { %>
+                <p style="color: red;" class="correct"><i class="fas fa-times"></i></p>
+              <% } else { %>
+                <p class="correct"><img src="/partial.png" style="height: 15px;width: 15px;"></p>
+              <% } %> 
+            <% }) %> 
+          </div>
+          <% }) %> 
+      <% } %> 
+    </div>
+</html>

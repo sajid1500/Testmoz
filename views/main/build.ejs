@@ -1,0 +1,51 @@
+<html lang="en">
+
+<%- include("./partials/head.ejs") %>
+
+<body id="build">
+  <%- include("./partials/nav.ejs") %>
+
+  <header>
+    <h1>Build a Test</h1>
+    <p>Use this form to build a free test on Testmoz.</p>
+  </header>
+  <main class="content-wrapper-2">
+    <section>
+      <p>(If you paid for a membership, you should <a href="#">sign in</a> first)</p>
+      <form action="/:position/admin" method="POST">
+        <% if(error) { %>
+          <p class="error"><%= error %></p>
+        <% } %>
+        <label>Test name (ex: Chapter 8 Test)</label>
+        <input type="text" name="name" id="id_name" value required autofocus>
+        <div class="row">
+          <div class="column">
+            <label for="password">Choose a password</label>
+            <input type="text" name="password" id="id_password" value required>
+          </div>
+          <div class="column">
+            <label for="password">Retype your password</label>
+            <input type="text" name="confirm_password" id="id_confirm_password" value required>
+          </div>
+        </div>
+        <div style="text-align: center; margin-top: 20px;">
+          <button type="submit" required>Create Test</button>
+        </div>
+      </form>
+    </section>
+    <section>
+      <h4>Limitations</h4>
+      <p>You can build a test for free on Testmoz, but remember these limits: 50 questions per test / 100 responses per
+        test (what happens if more than 100 people take it?)</p>
+      <p>You can sign up for a Testmoz account to remove these limitations.</p>
+      <h4 style="margin-top: 20px;">Warning:</h4>
+      <ol style="margin-left: 25px;">
+        <li>Don't forget your password (you can't recover it!)</li>
+        <li>Don't forget your test URL (you'll see it on the next page)</li>
+      </ol>
+    </section>
+  </main>
+
+  <%- include("./partials/footer.ejs") %>
+
+</html>

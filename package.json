@@ -1,0 +1,28 @@
+{
+  "name": "testmoz",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "dependencies": {
+    "connect-flash": "^0.1.1",
+    "dateformat": "^4.5.1",
+    "ejs": "^3.1.5",
+    "express": "^4.17.1",
+    "express-async-handler": "^1.1.4",
+    "express-session": "^1.17.1",
+    "froala-editor": "^3.2.5",
+    "mongoose": "^5.11.7",
+    "morgan": "^1.10.0",
+    "nocache": "^2.1.0",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/passport-local": "^1.0.33"
+  }
+}

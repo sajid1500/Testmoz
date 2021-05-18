@@ -1,0 +1,45 @@
+<script>history.replaceState(null, null, ' ');</script>
+<div class="navbar">
+  <strong class="navbar-toggler">Menu</strong>
+  <div class="menu">
+    <header>
+      <a href="#">Need Help?</a>
+      <h1 class="logo">
+        <img src="/testmoz.png" alt="logo" />
+      </h1>
+    </header>
+    <nav>
+      <ul class="list-unstyled">
+        <li>
+          <strong><a href="/<%= position %>/admin"><%= name %></a></strong>
+        </li>
+        <li><a class="nav-link" href="/<%= position %>/admin">Dashboard</a></li>
+        <li><a class="nav-link" href="/<%= position %>/admin/settings">Settings</a></li>
+        <li><a class="nav-link" href="/<%= position %>/admin/questions">Questions</a></li>
+        <li><a class="nav-link" href="/<%= position %>/admin/publish">Publish</a></li>
+        <li><a class="nav-link" href="/<%= position %>/admin/reports">Results</a></li>
+      </ul>
+    </nav>
+    <strong><a class="logout" href="/<%= position %>/admin/logout">Logout</a></strong>
+  </div>
+</div>
+
+<script>
+  const navbar = document.querySelector('.navbar');
+  const navbarToggler = document.querySelector('.navbar-toggler');
+  const navLinks = document.querySelectorAll('.nav-link')
+
+  navLinks.forEach(navLink => {
+    if(window.location.href === navLink.href) navLink.classList.add('active')
+  })
+
+  navbarToggler.addEventListener('click', () => {
+    if (!navbar.classList.contains('open')) {
+      navbarToggler.innerText = 'Close Menu';
+      navbar.classList.add('open');
+    } else {
+      navbarToggler.innerText = 'Menu';
+      navbar.classList.remove('open');
+    }
+  });
+</script>

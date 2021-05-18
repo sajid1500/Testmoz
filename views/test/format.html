@@ -1,0 +1,228 @@
+<html>
+  <%- include("./partials/head.ejs") %>
+</html>
+<body id="questions-page">
+  <%- include("./partials/nav.ejs") %>
+  <p class="info">
+    Your test has no questions! Use the drop-down below to insert a question.
+  </p>
+  <form action="" id="questions"></form>
+  <div class="insert">
+    <div class="column" style="margin-left: 20px;">
+      <strong style="font-size: 18px;color: white;">Insert</strong>
+      <select name="type" id="" style="font-size: 16px;">
+        <option selected></option>
+        <optgroup label="Graded Question">
+          <option value="2">Multiple choice (choose one)</option>
+          <option value="3">Multiple choice (choose many)</option>
+          <option value="1">True/False</option>
+          <option value="14">Matching</option>
+          <option value="4">Fill in the blank</option>
+          <option value="11">Essay</option>
+      </optgroup>
+      <optgroup label="Survey/Ungraded Question">
+          <option value="6">Multiple choice (choose one)</option>
+          <option value="7">Multiple choice (choose many)</option>
+          <option value="5">True/False</option>
+          <option value="15">Matching</option>
+          <option value="8">Short answer</option>
+          <option value="12">Long answer</option>
+      </optgroup>
+      <optgroup label="Other">
+          <option value="13">Text block</option>
+          <option value="13">Question pool</option>
+          <option value="13">Question from another test</option>
+          <option value="13">Question from file</option>
+      </optgroup>
+      </select>
+    </div>
+    <div class="column">
+      <button type="button" disabled>Undo</button>
+      <button type="button" disabled>Redo</button>
+    </div>
+  </div>
+  <div class="ques">
+    <div class="ques-mods">
+      <span class="ques-add" style="transform: translateY(-50%);">+</span>
+      <span class="ques-del" style="background-color: red;">-</span>
+      <span class="ques-add" style="transform: translateY(50%);">+</span>
+    </div>
+    <div class="ques_row">
+      <div class="ques_row_col">
+        <div style="display: flex;align-items: center;">
+          <strong>1.</strong>
+          <span class="ques-pos hidden" style="font-size: 12px;"><i class="fas fa-arrows-alt-v" style="margin-left: 5px;"></i></span>
+        </div>
+        <p class="ques-name">Question</p>
+      </div>
+      <div class="ques_row_col" style="text-align: right;">
+        <p><i class="fas fa-random" style="color: lightgray;margin-right: 10px;"></i></p>
+        <input type="number" value="1" name="" id="" class="points">
+        <label style="margin-left: -4px;"><small>points</small></label>
+      </div>
+    </div>
+    <div class="hidden last-row">
+      <label for="show-exp" style="font-size: 12px;">Show explanation</label>
+      <select name="" id="" style="margin-left: 10px;">
+        <option value="">abc</option>
+      </select>
+    </div>
+  </div>
+  <div class="ques">
+    <div class="ques-mods">
+      <span class="ques-add" style="transform: translateY(-50%);">+</span>
+      <span class="ques-del" style="background-color: red;">-</span>
+      <span class="ques-add" style="transform: translateY(50%);">+</span>
+    </div>
+    <div class="ques_row">
+      <div class="ques_row_col">
+        <div style="display: flex;align-items: center;">
+          <strong>1.</strong>
+          <span class="ques-pos hidden" style="font-size: 12px;"><i class="fas fa-arrows-alt-v" style="margin-left: 5px;"></i></span>
+        </div>
+        <p class="ques-name">Question</p>
+      </div>
+      <div class="ques_row_col" style="text-align: right;">
+        <p><i class="fas fa-random" style="color: lightgray;margin-right: 10px;"></i></p>
+        <input type="number" value="1" name="" id="" class="points">
+        <label style="margin-left: -4px;"><small>points</small></label>
+      </div>
+    </div>
+    <div>
+      <div class="option">
+        <p class="move-option hidden"><i class="fas fa-arrows-alt-v"></i></p>
+        <input type="radio" name="" id="">
+        <label>Choice 1</label>
+        <p class="delete-option"><i class="fas fa-trash-alt"></i></p>
+      </div>
+      <div class="option">
+        <p class="move-option hidden"><i class="fas fa-arrows-alt-v"></i></p>
+        <input type="radio" name="" id="">
+        <label>Choice 2</label>
+        <p class="delete-option"><i class="fas fa-trash-alt"></i></p>
+      </div>
+      <div class="option">
+        <p class="move-option hidden"><i class="fas fa-arrows-alt-v"></i></p>
+        <input type="radio" name="" id="" checked>
+        <label>Choice 3</label>
+        <p class="delete-option"><i class="fas fa-trash-alt"></i></p>
+      </div>
+      <div class="option">
+        <p class="move-option hidden"><i class="fas fa-arrows-alt-v"></i></p>
+        <input type="radio" name="" id="">
+        <label>Choice 4</label>
+        <p class="delete-option"><i class="fas fa-trash-alt"></i></p>
+      </div>
+      <div class="add-new-option hidden">
+        <input type="radio" name="" id="" style="margin-right: 7px;" disabled>
+        <label style="color: gray;">Click to add a new answer choice</label>
+      </div>
+    </div>
+    <div class="hidden last-row">
+      <input type="checkbox" name="" id="show-exp">
+      <label for="show-exp" style="font-size: 12px;">Show explanation</label>
+      <select name="" id="" style="margin-left: 10px;">
+        <option value="">abc</option>
+      </select>
+    </div>
+  </div>
+</body>
+<script>
+const insert = document.querySelector('.insert select')
+const questions = Array.from(document.querySelectorAll('.ques'))
+const moveOptions = document.querySelectorAll('.move-option')
+
+
+insert.addEventListener('change', () => {
+  const question = document.createElement('div')
+  question.className = '.ques'
+  
+})
+
+questions.forEach(ques => {
+  const hiddenElements = ques.querySelectorAll('.hidden')
+  
+  hiddenElements.forEach(hiddenElem => {
+    hiddenElem.style.margin = 0
+    hiddenElem.style.maxHeight = 0
+    hiddenElem.style.opacity = 0
+    hiddenElem.style.overflow = "hidden"
+    hiddenElem.style.transition = "max-height 2s, opacity .6s"
+  })
+  ques.addEventListener('click', () => {
+    hiddenElements.forEach(hiddenElem => {
+      hiddenElem.style.opacity = 1
+      hiddenElem.style.maxHeight = "800px"
+      hiddenElem.style.margin = ""
+    })
+  })
+})
+  // function swap(nodeA, nodeB) {
+  //   const parentA = nodeA.parentNode;
+  //   const siblingA = nodeA.nextSibling === nodeB ? nodeA : nodeA.nextSibling;
+  
+  //   nodeB.parentNode.insertBefore(nodeA, nodeB);
+  //   parentA.insertBefore(nodeB, siblingA);
+  // };
+  
+  // moveOptions.forEach(moveOption => {
+  //   const ques = moveOption.closest('.ques');
+  //   const option = moveOption.closest('.option');
+  //   let moveOptionHandler;
+    
+  //   function placeOption(e) {
+  //     const filler = option.parentNode.querySelector('.filler')
+  //     option.style = ''
+  //     // console.log('up')
+  //     if(filler) filler.replaceWith(option)
+  //     window.removeEventListener('mousemove', moveOptionHandler)
+  //     window.removeEventListener('mousemove', startMoveOption) 
+  //     document.body.style = ''
+  //   }
+  
+  //   function startMoveOption() {
+  //     const div = document.createElement('div')
+  //     div.classList.add('filler') 
+  //     div.style.width = option.offsetWidth + 'px'
+  //     div.style.height = option.offsetHeight + 'px'
+  //     div.style.margin = window.getComputedStyle(option).getPropertyValue('margin')
+  //     option.after(div)
+      
+  //     document.body.style.userSelect = 'none'
+  //     option.style.width = option.offsetWidth + 'px'
+  //     option.style.position = 'absolute'
+  //     option.style.marginTop = '0'
+  //     option.style.zIndex = '9999'
+  //     if(document.body.scrollHeight - window.scrollY === window.innerHeight) window.scrollBy(0, -20)
+  //   }
+  
+  //   moveOption.addEventListener('mousedown', e => {
+  //     const yOnOption = e.offsetY
+  
+  //     window.addEventListener('mousemove', startMoveOption, {once: true})
+  
+  //     let totalY = 0;
+  //     let moveY = 0;
+  
+  //     window.addEventListener('mousemove', moveOptionHandler = e => {
+  //       const otherOptions = Array.from(ques.querySelectorAll('.option')).filter(currOption => currOption !== option)
+  //       const OtherOptionsTop = otherOptions.map(otherOptions => otherOptions.getBoundingClientRect().top)
+  //       const optionTop = e.clientY
+  
+  //       totalY += Math.abs(ev.movementY);
+  //       moveY += ev.movementY;
+  
+  //       option.style.top = (e.clientY - ques.getBoundingClientRect().top - yOnOption) + 'px'
+  
+  //       if(OtherOptionsTop.includes(optionTop) ) {
+    //         const optionToSwap = otherOptions[OtherOptionsTop.indexOf(optionTop)]
+    //         const filler = ques.querySelector('.filler')
+    //         swap(optionToSwap, filler)
+    //       }
+    //       if(optionTop <= 0) window.scrollTo({top: 0, left: 0, behavior: "smooth"})
+    //       // if(optionTop >= window.innerHeight) window.scrollBy({top: -100, left: 0, behavior: "smooth"})
+    //     })
+    //     window.addEventListener('mouseup', placeOption, {once: true})
+    //   })
+    // })
+  </script>

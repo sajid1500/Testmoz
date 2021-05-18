@@ -1,0 +1,66 @@
+<html lang="en">
+  <%- include("./partials/head.ejs") %>
+
+  <body>
+    <%- include("./partials/nav.ejs") %>
+    <div class="right">
+      <header>
+        <h1><%= name %> Dashboard</h1>
+        <p>
+          This is the control panel where you can adjust settings, add questions,
+          publish the test, and view results.
+        </p>
+      </header>
+      <main>
+        <h2>Tasks</h2>
+        <div class="list">
+          <div class="list-item">
+            <div>0.</div>
+            <div>
+              <h3>Bookmark this page and write down your password</h3>
+              <p>
+                <strong class="red"
+                  >It is absolutely critical that you do this!</strong
+                >There is no way to recover the URL or password.
+              </p>
+            </div>
+          </div>
+          <a href="<%= position %>/admin/settings" class="list-item">
+            <div>1.</div>
+            <div>
+              <h3>Adjust settings</h3>
+              <p>
+                Change the test name, description and what happens after the test
+                is graded.
+              </p>
+            </div>
+          </a>
+          <a href="/<%= position %>/admin/questions" class="list-item">
+            <div>2.</div>
+            <div>
+              <h3>Add questions</h3>
+              <p>It's not much of a test if it doesn't have questions.</p>
+            </div>
+          </a>
+          <a href="#" class="list-item">
+            <div>3.</div>
+            <div>
+              <h3>Publish & distribute</h3>
+              <p>
+                Publish your test, distribute it to your students and start
+                collecting your results.
+              </p>
+            </div>
+          </a>
+          <a href="#" class="list-item">
+            <div>4.</div>
+            <div>
+              <h3>View results</h3>
+              <p>See how well your students did on the test.</p>
+            </div>
+          </a>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

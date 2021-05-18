@@ -1,0 +1,75 @@
+<html lang="en">
+  <%- include("./partials/head.ejs") %>
+
+  <body class="student-pg">
+    <script>history.replaceState(null, null, ' ');</script>
+    <form class="center" method="POST" action="">
+      <div class="wrapper">
+        <div style="margin-top: 20px;display: flex;justify-content: space-between;">
+          <div>
+            <strong><%= name %></strong>
+            <% if(locals.answers) { %>
+              <p style="margin-top: 10px;"><strong>Your score: <%= locals.score %></strong></p>
+            <% } %>  
+          </div>
+          <% if(locals.answers) {%> 
+            <div>
+              <p><strong>Preview</strong></p>
+              <p><small><%= locals.finish %></small></p>
+            </div>
+          <% } %> 
+        </div>
+        <% questions.forEach((question, i) => { %>
+          <div class="stud-ques">
+            <div class="row">          
+              <div class="together">
+                <div><strong><%= i + 1 %>.</strong></div>
+                <div class="stud-ques-name"><%= question.name %></div>
+              </div>
+              <div class="stud-ques-points"><%= question.points %> point</div>
+            </div>
+            <div>
+              <% if(typeof answers != 'undefined') { %> 
+                <div>Your Answer: 
+                  <% if(locals.answers[i].correct === 'right') { %> 
+                    <span style="color: green;"><i class="fas fa-check"></i>Correct</span>
+                  <% } else if(locals.answers[i].correct === 'wrong') { %>
+                      <span style="color: red;"><i class="fas fa-times"></i>Incorrect</span>
+                  <% } else { %>
+                    <span class="testmoz-color">Partially</span>
+                  <% } %> 
+                </div>
+              <% } %>
+              <% question.options.forEach(option => { %>
+                <label class="option">
+                  <% if(locals.answers) { %> 
+                  <span class="icon <%= locals.answers[i].correct === 'right' ? 'green' : 'red'%>">
+                    <% if(question.crctAns.includes(option)) { %> 
+                      <i class="fas fa-check"></i>
+                    <% } else { %>
+                      <i class="fas fa-times"></i>
+                    <% } %> 
+                  </span>
+                  <% } %> 
+                  <input 
+                  type="<%= question.type === 'mco' ? 'radio' : 'checkbox' %>" 
+                  name="studAnswers[<%= i %>]" 
+                  value="<%= option %>" 
+                  <%= locals.answers ?answers[i].studAns.includes(option) ? 'checked' : '' : '' %> <%= question.type === 'mco' ? 'required' : '' %> 
+                  <%= locals.answers ? 'disabled' : '' %> 
+                  >
+                  <p><%= option %></p>
+                </label>
+              <% }) %> 
+            </div>
+          </div>
+        <% }) %> 
+      </div>
+      <% if(!locals.returned) { %> 
+        <button type="submit" style="margin-top: 10px;padding: 5px;font-size: 16px;">Submit</button>
+      <% } else { %>
+        <button type="submit" style="margin-top: 10px;padding: 5px;font-size: 16px;" name="logout" value="true">Logout</button>
+      <% } %> 
+    </form>
+  </body>
+</html>

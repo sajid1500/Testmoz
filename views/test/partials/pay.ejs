@@ -1,0 +1,29 @@
+<div class="pay-container">
+  <div class="pay">
+    <button class="pay-container-close" type="button" onclick="document.querySelector('.pay-container').classList.remove('open')">Close(ESC)</button>
+    <h3>Sorry, but you're trying to use a feature<br> only available to Testmoz members.</h3>
+    <p>Testmoz is free to use, but some features are only available to members. It's <strong>only $50 per year</strong> for a membership (or $25/year if you're a teacher). It comes with lots of great features like:</p>
+    <div class="pay_grid">
+      <ul>
+        <li>Get email notifications when someone takes a test</li>
+        <li>Upload images and files</li>
+        <li>Insert math equations</li>
+        <li>Import questions from your other tests</li>
+      </ul>
+      <ul>
+        <li>Add ungraded/survey questions</li>
+        <li>Add explanations to questions</li>
+        <li>Unlimited questions per test</li>
+        <li>Unlimited responses per test</li>
+      </ul>
+    </div>
+    <p>If you want to sign up, <a style="text-decoration: underline;color: #335DAA;" href="testmoz.com/account/register">click here</a>. It only takes 60 seconds. All major credit/debit cards, Google/Apple/Microsoft Pay, and PayPal are accepted.</p>
+  </div>
+</div>
+
+<script>
+  function openPayContainer() {
+    event.target.checked = false
+    document.querySelector('.pay-container').classList.add('open')
+  }
+</script>

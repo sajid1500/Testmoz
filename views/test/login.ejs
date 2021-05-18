@@ -1,0 +1,92 @@
+<html lang="en">
+  <%- include("./partials/head.ejs") %>
+
+  <body class="login center">
+    <div class="center" style="margin-top: 20px;">
+      <div class="tabs">
+        <a href="#student" class="no-btn active" onclick="switchTab(1)">Student Login</a>
+        <a href="#admin" class="no-btn" onclick="switchTab(2)">Administration</a>
+      </div>
+      <div class="box" style="width: 300px;background-color: white;padding: 10px;">
+        <h2><%= name %></h2>
+        <div class="errors">
+          <% locals.errors.forEach(error => { %>
+            <p class="error2" style="margin: 10px auto"><%= error %></p>
+            <% }) %> 
+          </div>
+          <form method="POST" action="" class="student">
+            <div class="successes">
+              <% locals.successes.forEach(success => { %>
+                <p class="success" style="margin: 10px auto"><strong><%= success %></strong></p>
+              <% }) %> 
+            </div>
+          <% if(!locals.published) { %> 
+            <div class="testmoz-bg">
+              <strong>Attention</strong>
+              <p>This test is not yet published. You can take it, but your results will not be recorded (this warning box will disappear after you publish).</p>
+              <p>Click the <a href="#admin" onclick="switchTab(2)" style="color: skyblue;">Admin</a> tab to edit this test</p>
+              <p>Or click the button below to preview your test</p>
+            </div>
+            <button>Preview</button>
+          <% } else { %>
+            <label style="display: block;">Enter your name</label>
+            <input type="text" name="studName" required>
+            <button type="submit">Start</button>
+          <% } %> 
+          </form>
+          <form method="POST" action="/q/<%= position %>/admin" class="admin">
+            <input type="hidden" name="pos" value="<%= position %>">
+            <div class="successes">
+              <% locals.adminSuccesses.forEach(adminSuccess => { %>
+                <p class="success" style="margin: 10px auto"><strong><%= adminSuccess %></strong></p>
+              <% }) %> 
+            </div>
+            <label>Admin Password</label>
+            <input type="password" name="password" style="display: block;">
+            <button type="submit">Login</button>
+            <p><a href="">Build a Test</a> with Testmoz</p>
+          </div>
+        </form>
+      </div>
+    </div>
+    <script>
+      const student = document.querySelector('.student')
+      const admin = document.querySelector('.admin')
+      // const user = document.querySelector('input[name="user"]')
+      function switchTab (number) {
+        const studName = student.querySelector('input[type="text"]')
+        const tabs = document.querySelectorAll('.tabs a')
+        if(number === 1) {
+          // user.value = 'student'
+          admin.style.display = 'none'
+          student.style.display = 'block'
+          if(studName) studName.required = true
+          if(document.querySelector('.errors')) document.querySelector('.errors').remove()
+          if(admin.querySelector('.successes')) admin.querySelector('.successes').remove()
+          tabs[0].classList.add('active')
+          tabs[1].classList.remove('active')
+        } else {
+          // user.value = 'admin'
+          admin.style.display = 'block'
+          student.style.display = 'none'
+          if(studName) studName.required = false
+          if(student.querySelector('.successes')) student.querySelector('.successes').remove()
+          tabs[1].classList.add('active')
+          tabs[0].classList.remove('active')
+        }
+      }
+      
+      if(window.location.hash === '#admin') {
+        switchTab(2)
+      } else {
+        switchTab(1)
+      }
+      // <% if(locals.adminSuccesses) { %>
+      // switchTab(2)
+      // <% } %> 
+      // <% if(locals.successes) { %>
+      //   switchTab(1)
+      // <% } %> 
+    </script>
+  </body>
+</html>

@@ -1,0 +1,413 @@
+<html lang="en">
+  <%- include("./partials/head.ejs") %>
+
+  <body class="settings">
+    <%- include("./partials/nav.ejs") %>
+    <form action="" method="post" class="right">
+      <%- include("./partials/pay.ejs") %>
+      <% if(areErrors) { %>
+        <p class="errors">Please correct the error(s) below.</p>
+      <% } %>
+      <fieldset>
+        <legend>Basic Settings</legend>
+        <label for="name">Test Name</label>
+        <input type="text" name="name" id="name" value="<%= name %>" />
+        <% if(!name) { %>
+          <p class="error">Enter a name for your test</p>
+        <% } %>
+        <label>Introduction</label>
+        <p class="form-help">
+          This text is displayed at the top of the test. You can use it to write
+          your instructions or anything else. It can be blank.
+        </p>
+        <textarea id="froala-editor" name="intro"><%= intro %></textarea>
+        <label>Color Scheme</label>
+        <section class="themes">
+          <label class="<%= theme==="white" ? "active" : "" %>" for="theme1">
+            <input type="radio" id="theme1" name="theme" value="white">
+            <a href="/themes/edit/1">
+              <h1>Testmoz</h1>
+              <ul>
+                <li>George Washington</li>
+                <li>Thomas Jefferson</li>
+                <li>Abraham Uncoln</li>
+                <li>Ulysses S. Grant</li>
+                <li>This is an explanation for the answer. Carry on.</li>
+              </ul>
+            </a>
+          </label>
+          <label class="<%= theme==="blue" ? "active" : "" %>">
+            <input type="radio" name="theme" value="blue">
+            <a href="/themes/edit/6" style="background-color: #335DAA;">
+              <h1>Testmoz Corporate Blues</h1>
+              <ul>
+                <li>George Washington</li>
+                <li>Thomas Jefferson</li>
+                <li style="background-color: #F2F2F3;">Abraham Uncoln</li>
+                <li>Ulysses S. Grant</li>
+                <li style="background-color: #CDDAF3;">This is an explanation for the answer. Carry on.</li>
+              </ul>
+            </a>
+          </label>
+          <label class="<%= theme==='red' ? "active" : "" %>">
+            <input type="radio" name="theme" value="red">
+            <a href="/themes/edit/4" style="background-color: #831C2D;">
+              <h1>Testmoz Crimson and Gray</h1>
+              <ul>
+                <li>George Washington</li>
+                <li>Thomas Jefferson</li>
+                <li style="background-color:white;">Abraham Uncoln</li>
+                <li>Ulysses S. Grant</li>
+                <li style="background-color: lightgrey;">This is an explanation for the answer. Carry on.</li>
+              </ul>
+            </a>
+          </label>
+          <label class="<%= theme==="black" ? "active" : "" %>">
+            <input type="radio" name="theme" value="black">
+            <a href="/themes/edit/8" style="background-color: black;">
+              <h1 style="color: #e4a933;">Testmoz Genghis</h1>
+              <ul>
+                <li>George Washington</li>
+                <li>Thomas Jefferson</li>
+                <li style="background-color: rgba(192, 154, 79, 0.618);">Abraham Uncoln</li>
+                <li>Ulysses S. Grant</li>
+                <li style="background-color: #e4a933;">This is an explanation for the answer. Carry on.</li>
+              </ul>
+            </a>
+          </label>
+        </section>
+        <label for="lang" style="display: inline-block;">Choose the language for the Testmoz student interface: </label>
+        <select name="lang" id="lang" style="display: inline-block;padding: 5px;">
+          <option value="auto" <%= lang==='auto' ? 'selected' : ''%>>Detect automatically</option>
+          <option value="en" <%= lang==='en' ? 'selected' : ''%>>English</option>
+          <option value="fr" <%= lang==='fr' ? 'selected' : ''%>>French</option>
+          <option value="de" <%= lang==='de' ? 'selected' : ''%>>German</option>
+          <option value="hi" <%= lang==='hi' ? 'selected' : ''%>>Hindi</option>
+          <option value="es" <%= lang==='es' ? 'selected' : ''%>>Spanish</option>
+        </select>
+        <p class="form-help">This language is used when displaying Testmoz specific words like "Start Test", "Points", "Correct", "Incorrect" to your students. Even if your language isn't listed, you can still write your questions in any language you want.</p>
+      </fieldset>
+      <fieldset>
+        <legend>Question Settings</legend>
+        <label><input 
+          onclick="document.querySelector('.extra-options').classList.remove('open')" 
+          type="radio" 
+          name="quesPerPg" 
+          value="all"
+          <%= quesPerPg.amount==='all' ? 'checked' : ''%> 
+          >Show <strong>all</strong> the test questions on one page (recommended for new users of Testmoz)</label>
+        <label><input 
+          onclick="document.querySelector('.extra-options').classList.add('open')" 
+          type="radio" 
+          name="quesPerPg" 
+          value="one"
+          <%= quesPerPg.amount==='one' ? 'checked' : ''%> 
+          >Show <strong>one</strong> question per page (recommended for new users of Testmoz)</label>
+        <div style="margin-left: 20px;" class="extra-options">
+          <div>
+            <label><strong>Navigation Settings</strong></label>
+            <label><input type="radio" name="nav" value="different" <%= quesPerPg.nav === 'different' ? 'checked' : ''%>>Allow the student to jump around to different questions in the test</label>
+            <label><input type="radio" name="nav" value="forward" <%= quesPerPg.nav === 'forward' ? 'checked' : ''%>>Only allow the student to move forward after answering a question</label>
+          </div>
+          <div style="margin-top: 5px;">
+            <label><strong>After each question is answered:</strong></label>
+            <label><input 
+              onclick="uncheckLast(this)" 
+              type="checkbox" 
+              name="show" 
+              value="res"
+              <%= quesPerPg.show.includes('res') ? 'checked' : ''%>
+              >Indicate if the student's response was correct or incorrect</label>
+            <label><input 
+              onclick="uncheckLast(this)" 
+              type="checkbox" 
+              name="show" 
+              value="ans"
+              <%= quesPerPg.show.includes('ans') ? 'checked' : ''%>
+              >Display the correct answer</label>
+            <label><input 
+              onclick="uncheckLast(this)" 
+              type="checkbox" 
+              name="show" 
+              value="exp"
+              <%= quesPerPg.show.includes('exp') ? 'checked' : ''%>
+              >Show the explanation (if there is one)</label>
+            <label><input 
+              onclick="uncheckSiblings(this)" 
+              type="checkbox" 
+              name="show" 
+              value="nothing"
+              <%= quesPerPg.show.includes('nothing') ? 'checked' : ''%>
+              >Don't show anything. Just move on to the next question.  You can still show the question feedback at the end of the test. See the Review Settings section below.</label>
+          </div>
+        </div>
+        <label style="margin-top: 20px;"><input 
+          type="checkbox" 
+          name="randQues" 
+          <%= randQues ? 'checked' : ''%> 
+          ><strong>Randomize the order of the questions during the test</strong></label>
+      </fieldset>
+      <fieldset>
+        <legend>Review Settings</legend>
+        <p>These settings control what happens after the test is completed and submitted by the test taker.</p>
+        <label><strong>Conclusion Text</strong></label>
+        <p class="form-help">This text is displayed after the test is submitted.</p>
+        <textarea name="con" id="froala-editor"><%= con %></textarea>
+        <label><input 
+          onclick="document.querySelector('.slider').classList.toggle('open')" 
+          type="checkbox" 
+          name="showMsg"
+          <%= showMsg ? 'checked' : ''%> 
+          ><strong>Show a custom message if the student passed or failed</strong></label>
+        <div style="margin-left: 20px;" class="slider <%= showMsg ? 'open' : ''%>">
+          <label><strong>What is the passing score?</strong></label>
+          <div><input style="width: 80px;padding: 2px 4px;font-size: 17px;font-weight: 100;" type="number" name="passScore" step="0.01">%</div>
+          <label><strong>Pass Message</strong></label>
+          <p class="form-help">If the student passes, this text is displayed:</p>
+          <textarea name="passMsg" id="froala-editor"><%= passMsg %></textarea>
+          <label><strong>Fail Message</strong></label>
+          <p class="form-help">If the student fails, this text is displayed:</p>
+          <textarea name="failMsg" id="froala-editor"><%= failMsg %></textarea>
+        </div>
+        <h4 style="margin-top: 20px;">At the end of the test, display the user's:</h4>
+        <label><input 
+          type="checkbox" 
+          name="showScore"
+          <%= showScore ? 'checked' : '' %> 
+          >Score</label>
+        <label><input 
+          type="checkbox" 
+          name="showOutline"
+          onclick="handleDisable(event)" 
+          <%= showOutline.value ? 'checked' : '' %> 
+          >Test outline
+          <span class="tooltip">[?]
+            <small class="tooltip-text">After the test is submitted, the outline will re-display all the questions, along with the student's response, and the question's explanation (if you set one).</small>
+          </span>
+        </label>
+        <div style="margin-left: 20px;">
+          <label><input 
+            type="checkbox" 
+            name="outlineOpt" 
+            value="res"
+            <%= showOutline.value ? '' : 'disabled' %> 
+            <%= showOutline.options.includes('res') ? 'checked' : '' %> 
+            >Indicate if their response was correct or incorrect</label>
+          <label><input 
+            type="checkbox" 
+            name="outlineOpt"
+            value="ans"
+            <%= showOutline.value ? '' : 'disabled' %> 
+            <%= showOutline.options.includes('ans') ? 'checked' : '' %>
+            >Display the correct answer</label>
+          <label><input 
+            type="checkbox" 
+            name="outlineOpt"
+            value="exp"
+            <%= showOutline.value ? '' : 'disabled' %> 
+            <%= showOutline.options.includes('exp') ? 'checked' : '' %>
+            >Display the explanation</label>
+        </div>
+      </fieldset>
+      <fieldset class="access">
+        <legend>Access Control</legend>
+        <div class="grid">
+          <div class="grid-col-1" style="margin-top: 5px;">
+            <h4>Who can take your test?</strong></h4>
+            <div class="form-group">
+              <label><input type="checkbox" name="access" class="wat"><strong>Anyone</strong></label>
+            </div>
+            <div class="form-group">
+              <label><input 
+                type="checkbox" 
+                name="access"
+                class="wat"
+                onclick="document.querySelector('.weird').classList.toggle('open')"
+                >Anyone who enters a <strong>passcode</strong> of my choosing
+              </label>
+              <div style="margin-left: 15px;" class="weird">
+                <p style="font-weight: 400;">Set the passcode your students will need to enter to start the test</p>
+                <p style="font-size: 14px;font-weight: 400;">It is case sensitive.</p>
+                <input 
+                style="max-width: 100px;"
+                type="text" 
+                name="studentPass"
+                >
+              </div>
+            </div>
+            <div class="form-group">
+              <label><input class="wat" type="checkbox" name="access" onclick="openPayContainer(event)">Anyone who enters a <strong>unique identifier</strong> (student ID, employee ID, etc) from a list that I specify</label>
+            </div>
+            <div class="form-group">
+              <label><input class="wat" type="checkbox" name="access" onclick="openPayContainer(event)">Anyone who enters an <strong>email address</strong> from a list that I specify</label>
+            </div>
+          </div>
+          <div class="grid-col-2">
+            <h4>How much time do test takers have to complete the test?</strong></h4>
+            <p class="form-help">The timer starts the moment they enter the test and continues even if they close out of the test.</p>
+            <label>
+              <input 
+              type="radio" 
+              name="time" 
+              value="unlimited"
+              >Unlimited
+            </label>
+            <label>
+              <input 
+              type="radio" 
+              name="time" 
+              value="limited"
+              >
+              <input 
+              type="text" 
+              name="time"
+              onclick="checkOther(event)"
+              >minutes
+            </label>
+            <h4>How many times can someone take your test?</h4>
+            <label>
+              <input 
+              type="radio" 
+              name="attempts" 
+              value="unlimited"
+              >Unlimited
+            </label>
+            <label for="attempts">
+              <input 
+              type="radio" 
+              name="attempts"
+              value="limited"
+              id="attempts"
+              >
+              <input 
+              type="text" 
+              name="attempts" 
+              onclick="checkOther(event)"
+              >times
+            </label>
+            </label>
+          </div>
+        </div>
+        <h4>What should test takers enter to identify themselves?</h4>
+        <div class="form-help">
+          <p>This text appears above the field where the test taker enters their identifier. It should tell them what to enter.</p>
+          <p><strong>Examples:</strong> "Enter your name", "Enter your student ID", or "Please enter your company email address"</p>
+        </div>
+        <input 
+        type="text" 
+        name="label" 
+        value="Enter your name" 
+        required
+        >
+      </fieldset>
+      <fieldset>
+        <legend>Browser Functionality</legend>
+        <label><input type="checkbox" name="">Disable right-click context menu</label>
+        <label><input type="checkbox" name="">Disable copy/paste</label>
+        <label><input type="checkbox" name="">Disable translate</label>
+        <label><input type="checkbox" name="">Disable autocomplete</label>
+        <label><input type="checkbox" name="">Disable spellcheck</label>
+        <label><input type="checkbox" name="">Disable printing</label>
+        <p style="cursor: text;margin-top: 5px;">
+          <i class="fas fa-exclamation-triangle" style="color: yellow;"></i>
+          <span class="tooltip2" style="text-decoration: underline dotted; margin-left: 5px;">Technical Disclose
+            <small class="tooltip2-text"><strong style="font-size: 14px;">Testmoz does not recommend using any of these settings.</strong> They only offer the illusion of "security". No web application can completely disable builtin browser functionality. These settings may not work in all browsers, and they are trivial to bypass. These settings may interfere with the browsing experience of people with disabilities.</small>
+          </span>
+        </p>
+      </fieldset>
+      <fieldset>
+        <legend>Notifications</legend>
+      </fieldset>
+      <button type="submit" style="margin-left: 50%;">Save</button>
+      
+    </form>
+    <script>
+      const themes = document.querySelectorAll('.themes label')
+      const extraOptions = document.querySelector('.extra-options')
+      const wats = Array.from(document.querySelectorAll('.wat'))
+      
+      wats.forEach(input => input.addEventListener('click', e => {
+        if(input.checked) {
+          const cb = e.target
+          wats.forEach(wat => wat !== cb ? wat.checked = false : wat.checked = true)
+        }
+      }))
+          
+      function checkOther(e) {
+        e.target.parentNode.querySelector('input[type="radio"]').checked = true
+      }
+
+      function handleDisable(e) {
+        const extraCheckbox = Array.from(Array.from(e.target.parentNode.parentNode.children).pop().querySelectorAll('input[type="checkbox"]'))
+
+        if(e.target.checked) {
+          extraCheckbox.forEach(checkbox => checkbox.disabled = false)
+        } else {
+          extraCheckbox.forEach(checkbox => {
+            checkbox.checked = false
+            checkbox.disabled = true
+          })
+        }
+      }
+
+      function uncheckSiblings(checkbox) {
+        Array.from(checkbox.parentNode.parentNode.children)
+        .forEach(label => {
+          const sibling = label.querySelector('input[type="checkbox"]')
+          if(sibling && sibling !== checkbox) sibling.checked = false
+        })
+      }
+
+      function uncheckLast(checkbox) {
+        Array.from(checkbox.parentNode.parentNode.children).pop().querySelector('input[type="checkbox"]').checked = false
+      }
+      
+      document.querySelector('label.active input').checked = true
+      themes.forEach(theme => theme.addEventListener('click', () => {
+        themes.forEach(theme => theme.classList.remove('active'))
+        theme.querySelector('input').checked = true
+        theme.classList.add('active')
+      }))
+      document.querySelectorAll('.themes a')
+      .forEach(link => link.addEventListener('click', e => e.preventDefault()))
+    </script>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/froala-editor@3.1.0/js/froala_editor.pkgd.min.js"></script>
+    <script>
+      new FroalaEditor('#froala-editor', {
+        toolbarButtons: [
+          'bold', 'italic', 'underline', 'strikeThrough', 'superscript', 'subscript', '|', 'align', '|', 'formatOL','formatUL', 'outdent', 'indent', 'insertLink', '-', 'fontSize', 'color', 'clearFormatting', '|', 'insertImage', 'insertFile', 'noembed', 'mathjax', 'insertTable', '|', 'html'
+        ],
+        pluginsEnabled: ['file', 'wordPaste', 'image', 'codeView', 'mathjax', 'noembed', 'lists', 'align', 'link',
+          'fontSize', 'colors', 'table'
+        ],
+        theme: 'dark',
+        wordPasteModal: false,
+        pastePlain: true,
+        linkAlwaysBlank: true,
+        linkEditButtons: ['linkOpen', 'linkEdit', 'linkRemove'],
+        htmlAllowedTags: ['a', 'abbr', 'address', 'area', 'article', 'aside', 'audio', 'b', 'base', 'bdi', 'bdo',
+          'blockquote', 'br', 'button', 'canvas', 'caption', 'cite', 'code', 'col', 'colgroup', 'datalist', 'dd',
+          'del', 'details', 'dfn', 'dialog', 'div', 'dl', 'dt', 'em', 'embed', 'fieldset', 'figcaption', 'figure',
+          'footer', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'header', 'hgroup', 'hr', 'i', 'iframe', 'img', 'input',
+          'ins', 'kbd', 'keygen', 'label', 'legend', 'li', 'link', 'main', 'map', 'mark', 'menu', 'menuitem',
+          'meter', 'nav', 'noscript', 'object', 'ol', 'optgroup', 'option', 'output', 'p', 'param', 'pre',
+          'progress', 'queue', 'rp', 'rt', 'ruby', 's', 'samp', 'script', 'style', 'section', 'select', 'small',
+          'source', 'span', 'strike', 'strong', 'sub', 'summary', 'sup', 'table', 'tbody', 'td', 'textarea',
+          'tfoot', 'th', 'thead', 'time', 'title', 'tr', 'track', 'u', 'ul', 'var', 'video', 'wbr'
+        ],
+        charCounterCount: false,
+        imageEditButtons: ['imageSize', 'imageAlign', 'imageReplace', 'imageRemove'],
+        imageDefaultAlign: 'left',
+        codeMirror: false,
+        heightMin: 20,
+        imageInsertButtons: ['imageByURL', '|', 'imageUpload'],
+        imageUploadRemoteUrls: false,
+        imageDefaultWidth: 0,
+        imageAddNewLine: true,
+        fileMaxSize: 15 * Math.pow(2, 20)
+      })
+    </script>
+  </body>
+
+</html>
