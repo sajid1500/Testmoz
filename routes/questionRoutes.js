@@ -28,7 +28,8 @@ router.get('/:position', asyncHandler(async (req, res, next) => {
 
 router.post('/:position', asyncHandler(async (req, res, next) => {
   req.session.studName = req.body.studName
-  res.redirect(`/${req.params.position}/student`)
+  console.log('object')
+  res.redirect(`/q/${req.params.position}/student`)
 }))
 
 router.post('/:position/admin', passport.authenticate('local', { failureRedirect: 'back', failureFlash: true, }), (req, res) => {
@@ -96,18 +97,6 @@ router.post('/:position/student', asyncHandler(async (req, res, next) => {
   await test.save()
   if (test) {
     res.render('test/student', { ...test.toJSON(), finish: dateFormat(student.finish, 'mmmm d, yyyy, h:MM tt'), score: student.score, answers: student.answers, studPoints, returned })
-  } else {
-    next()
-  }
-}))
-
-router.get('/:position/admin/reports', asyncHandler(async (req, res, next) => {
-  const testPos = req.params.position
-  const test = (await Test.findOne({ position: testPos })).toJSON()
-  const avgTime = test.students.reduce((accumulator, student) => accumulator + student.time, 0) / test.students.length
-  const avgScore = test.students.reduce((accumulator, student) => accumulator + parseInt(student.score.match(/\d+/)[0]), 0) / test.students.length
-  if (test) {
-    res.render('test/results', { ...test, testPos, dateFormat, avgTime, avgScore })
   } else {
     next()
   }

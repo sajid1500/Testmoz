@@ -24,7 +24,7 @@
             <div class="row">          
               <div class="together">
                 <div><strong><%= i + 1 %>.</strong></div>
-                <div class="stud-ques-name"><%= question.name %></div>
+                <div class="stud-ques-name"><%- question.name %></div>
               </div>
               <div class="stud-ques-points"><%= question.points %> point</div>
             </div>
@@ -58,7 +58,7 @@
                   <%= locals.answers ?answers[i].studAns.includes(option) ? 'checked' : '' : '' %> <%= question.type === 'mco' ? 'required' : '' %> 
                   <%= locals.answers ? 'disabled' : '' %> 
                   >
-                  <p><%= option %></p>
+                  <p><%- option %></p>
                 </label>
               <% }) %> 
             </div>

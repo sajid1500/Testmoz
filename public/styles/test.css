@@ -435,6 +435,18 @@ form {
   width: 100%;
 }
 
+.editor2 {
+  width: 100%;
+  margin-top: 5px;
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.editor2 p {
+  margin: 0 !important;
+}
+
 .insert {
   display: flex;
   justify-content: space-between;
@@ -558,12 +570,16 @@ form {
   text-align: right;
 }
 
-.option:hover {
-  background-color: rgba(99, 98, 98, 0.12);
+:not(.active).option:hover {
+  /* background-color: rgba(99, 98, 98, 0.12); */
 }
 
 .option:hover .delete-option {
   display: block;
+}
+
+.option.active {
+  cursor: text;
 }
 
 .add-new-option:hover {

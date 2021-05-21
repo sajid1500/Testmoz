@@ -10,7 +10,7 @@
     "express": "^4.17.1",
     "express-async-handler": "^1.1.4",
     "express-session": "^1.17.1",
-    "froala-editor": "^3.2.5",
+    "froala-editor": "^3.2.7",
     "mongoose": "^5.11.7",
     "morgan": "^1.10.0",
     "nocache": "^2.1.0",

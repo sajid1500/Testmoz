@@ -20,7 +20,7 @@
           This text is displayed at the top of the test. You can use it to write
           your instructions or anything else. It can be blank.
         </p>
-        <textarea id="froala-editor" name="intro"><%= intro %></textarea>
+        <textarea id="fr-editor1" name="intro"><%= intro %></textarea>
         <label>Color Scheme</label>
         <section class="themes">
           <label class="<%= theme==="white" ? "active" : "" %>" for="theme1">
@@ -152,7 +152,7 @@
         <p>These settings control what happens after the test is completed and submitted by the test taker.</p>
         <label><strong>Conclusion Text</strong></label>
         <p class="form-help">This text is displayed after the test is submitted.</p>
-        <textarea name="con" id="froala-editor"><%= con %></textarea>
+        <textarea name="con" id="fr-editor2"><%= con %></textarea>
         <label><input 
           onclick="document.querySelector('.slider').classList.toggle('open')" 
           type="checkbox" 
@@ -164,10 +164,10 @@
           <div><input style="width: 80px;padding: 2px 4px;font-size: 17px;font-weight: 100;" type="number" name="passScore" step="0.01">%</div>
           <label><strong>Pass Message</strong></label>
           <p class="form-help">If the student passes, this text is displayed:</p>
-          <textarea name="passMsg" id="froala-editor"><%= passMsg %></textarea>
+          <textarea name="passMsg" id="fr-editor3"><%= passMsg %></textarea>
           <label><strong>Fail Message</strong></label>
           <p class="form-help">If the student fails, this text is displayed:</p>
-          <textarea name="failMsg" id="froala-editor"><%= failMsg %></textarea>
+          <textarea name="failMsg" id="fr-editor4"><%= failMsg %></textarea>
         </div>
         <h4 style="margin-top: 20px;">At the end of the test, display the user's:</h4>
         <label><input 
@@ -374,7 +374,7 @@
 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/froala-editor@3.1.0/js/froala_editor.pkgd.min.js"></script>
     <script>
-      new FroalaEditor('#froala-editor', {
+      new FroalaEditor('#fr-editor1, #fr-editor2, #fr-editor3, #fr-editor4', {
         toolbarButtons: [
           'bold', 'italic', 'underline', 'strikeThrough', 'superscript', 'subscript', '|', 'align', '|', 'formatOL','formatUL', 'outdent', 'indent', 'insertLink', '-', 'fontSize', 'color', 'clearFormatting', '|', 'insertImage', 'insertFile', 'noembed', 'mathjax', 'insertTable', '|', 'html'
         ],

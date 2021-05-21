@@ -7,7 +7,7 @@
     <p class="info" style="margin-top: 50px;">
       Your test has no questions! Use the drop-down below to insert a question.
     </p>
-    <form action="" method="POST" class="center" >
+    <form action="" method="POST" class="center" id="all-questions">
       <div class="survey-questions" style="width: 100%;"></div>
       <div class="questions" style="width: 100%;"></div>
     </form>
@@ -43,13 +43,16 @@
       <div class="column">
         <button type="button" disabled>Undo</button>
         <button type="button" disabled>Redo</button>
-        <button type="submit" class="no-btn" style="color: white;"><small>Save?</small></button>
+        <button type="submit" form="all-questions" class="no-btn" style="color: white;"><small>Save?</small></button>
       </div>
     </div>
     <template class="survey-answer">
       <div class="ques">
-        <p class="number">1</p>
-        <input type="text" value="Your Question">
+        <input type="hidden" name="type" value="survey-answer">
+        <div class="ques_row_col">
+          <p class="number">1.</p>
+          <div id="name" class="editor2">Your question</div>
+        </div>
       </div>
     </template>
     <div class="ques ex mco" style="display: none;">
@@ -66,7 +69,7 @@
             <strong>1.</strong>
             <span class="ques-pos hidden ques-pos-right" style="font-size: 12px;"><i class="fas fa-arrows-alt-v"></i></span>
           </div>
-          <input type="text" name="name" class="ques-name no-input" value="Question">
+          <div id="name" class="editor2">Question</div>
         </div>
         <div class="ques_row_col" style="text-align: right;">
           <p class="shuffle">
@@ -80,26 +83,26 @@
       <div>
         <div class="option">
           <p class="move-option hidden"><i class="fas fa-arrows-alt-v"></i></p>
-          <input type="radio" name="crctAns" value="Choice 1" id="">
-          <input type="text" name="option1" value="Choice 1">
+          <input type="radio" name="crctAns" value="option1" id="">
+          <div id="option1" class="editor2" id="option1">Choice 1</div>
           <p class="delete-option"><i class="fas fa-trash-alt"></i></p>
         </div>
         <div class="option">
           <p class="move-option hidden"><i class="fas fa-arrows-alt-v"></i></p>
-          <input type="radio" name="crctAns" value="Choice 2" id="">
-          <input type="text" name="option2" value="Choice 2">
+          <input type="radio" name="crctAns" value="option2" id="">
+          <div id="option2" class="editor2">Choice 2</div>
           <p class="delete-option"><i class="fas fa-trash-alt"></i></p>
         </div>
         <div class="option">
           <p class="move-option hidden"><i class="fas fa-arrows-alt-v"></i></p>
-          <input type="radio" name="crctAns" value="Choice 3" id="" checked>
-          <input type="text" name="option3" value="Choice 3">
+          <input type="radio" name="crctAns" value="option3" id="" checked>
+          <div id="option3" class="editor2">Choice 3</div>
           <p class="delete-option"><i class="fas fa-trash-alt"></i></p>
         </div>
         <div class="option">
           <p class="move-option hidden"><i class="fas fa-arrows-alt-v"></i></p>
-          <input type="radio" name="crctAns" value="Choice 4" id="">
-          <input type="text" name="option4" value="Choice 4">
+          <input type="radio" name="crctAns" value="option4" id="">
+          <div id="option4" class="editor2">Choice 4</div>
           <p class="delete-option"><i class="fas fa-trash-alt"></i></p>
         </div>
         <div class="add-new-option hidden">
@@ -440,125 +443,159 @@
       </div>
     </div>
   </div>
-</body>
-
-<script>
-  const insert = document.querySelector('.insert select')
-  const exQues = document.querySelector('.ques-ex')
-  const form = document.querySelector('form')
-  const questionsData = JSON.parse('<%- JSON.stringify(questions) %>');
-  if(questionsData.length !== 0) questionsData.forEach(quesData => {
-    const newQues = document.querySelector(`.ex.ques.${quesData.type}`).cloneNode(true)
-    const newQuesOptions = Array.from(newQues.querySelectorAll('input[type="text"]')).filter(input => input.name.includes('option'))
-    newQuesOptions.forEach((option, i) =>{ 
-      option.value = quesData.options[i]
-    })
-    newQues.querySelectorAll('input').forEach(input => {
-      if(input.name === 'crctAns') {
-        input.checked = quesData.crctAns.includes(input.nextElementSibling.value)
-      console.log(quesData.crctAns.includes(input.value))
-      console.log('object')
-    } else if(input.type === 'checkbox') {
-      input.checked = input.hasOwnProperty(input.name)
-    } else if(input.name.includes('option')) {
-      return
-    } else {
-      input.value = quesData[input.name]
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/froala-editor@3.1.0/js/froala_editor.pkgd.min.js"></script>
+  <!-- <script src="https://cdn.ckeditor.com/ckeditor5/27.1.0/inline/ckeditor.js"></script> -->
+  <script>
+    function attachEditor(question) {
+      question.querySelectorAll('.editor2').forEach(editor => {
+        new FroalaEditor(editor, {
+          toolbarVisibleWithoutSelection: true,
+          toolbarBottom: false,
+          // initOnClick: true,
+          toolbarInline: true,
+          toolbarButtons: [
+            'bold', 'italic', 'underline', 'strikeThrough', 'superscript', 'subscript', '|', 'align', '|', 'formatOL','formatUL', 'outdent', 'indent', 'insertLink', '-', 'fontSize', 'color', 'clearFormatting', '|', 'insertImage', 'insertFile', 'noembed', 'mathjax', 'insertTable', '|', 'html'
+          ],
+          pluginsEnabled: ['file', 'wordPaste', 'image', 'codeView', 'mathjax', 'noembed', 'lists', 'align', 'link',
+            'fontSize', 'colors', 'table'
+          ],
+          wordPasteModal: false,
+          pastePlain: true,
+          linkAlwaysBlank: true,
+          linkEditButtons: ['linkOpen', 'linkEdit', 'linkRemove'],
+          charCounterCount: false,
+          codeMirror: false,
+          heightMin: 20,
+        })
+      })
     }
-  })
-  addQuesEvents(newQues)
-  newQues.style.display = ''
-  newQues.classList.remove('ex')
-
-  form.append(newQues)
-})
-
-form.addEventListener('submit', e => {
-  e.preventDefault()
-  console.log(new URLSearchParams(Array.from(new FormData(form))).toString())
-  const questionsNode = Array.from(document.querySelectorAll('.ques:not(.ex)'))
-  let questionsData = []
-  questionsNode.forEach(quesNode => {
-    let quesData = {}
-    Array.from(quesNode.querySelectorAll('input')).forEach(input => {
-      let input2 = input.cloneNode(true)
-      input2.name = input2.name.replaceAll(/\d+/g, '')
-      if(input2.name) {
-        if(input2.name === 'crctAns') {
-          if(input2.checked) {
-            if(!quesData.crctAns) quesData.crctAns = []
-            quesData.crctAns.push(input.nextElementSibling.value)
-            console.log(input2.value)
-          }
-        } else if(input2.type === 'checkbox') {
-            quesData[input2.name] = input.checked
-        } else if(input2.name === 'option') {
-            if(!quesData.options) quesData.options = []
-            quesData.options.push(input2.value)
+  </script>
+  <script>
+    const insert = document.querySelector('.insert select')
+    const exQues = document.querySelector('.ques-ex')
+    const form = document.querySelector('form')
+    const questionsData = JSON.parse('<%- JSON.stringify(questions) %>');
+    if(questionsData.length !== 0) questionsData.forEach(quesData => {
+      const newQues = document.querySelector(`.ex.ques.${quesData.type}`).cloneNode(true)
+      newQues.querySelector('#name').innerHTML = quesData.name
+      Array.from(newQues.querySelectorAll('.editor2'))
+      .filter(editor => editor.id.includes('option'))
+      .forEach((option, i) => option.innerHTML = quesData.options[i])
+      newQues.querySelectorAll('input').forEach(input => {
+        if(input.name === 'crctAns') {
+          input.checked = quesData.crctAns.includes(input.value)
+        } else if(input.type === 'checkbox') {
+          input.checked = quesData[input.name]
+          // input.checked = quesData.hasOwnProperty(input.name) ? quesData[input.name] : false
         } else {
-            quesData[input2.name] = input2.value
+          input.value = quesData[input.name]
         }
-      } 
     })
-    if(Object.keys(quesData).length !== 0) questionsData.push(quesData)
-  })
-  fetch(`${window.location.pathname}`, {
-    method: 'post',
-    body: JSON.stringify(questionsData),
-  })
-  .then(data = console.log('success'))
-})
-
-function addQuesEvents(ques) {
-  const id = Date.now()
-  ques.querySelectorAll('input').forEach(input => input.name += id)
-  ques.querySelector('.ques-del').addEventListener('click', () => ques.remove())
-  ques.querySelector('.ques-add-before').addEventListener('click', () => {
-    const anotherQues = ques.cloneNode(true)
-    addQuesEvents(anotherQues)
-    ques.before(anotherQues)
-  })
-  ques.querySelector('.ques-add-after').addEventListener('click', () => {
-    const anotherQues = ques.cloneNode(true)
-    addQuesEvents(anotherQues)
-    ques.after(anotherQues)
-  })
-  ques.querySelectorAll('.delete-option').forEach(deleteOption => deleteOption.addEventListener('click', () => deleteOption.closest('.option').remove()))
-   ques.querySelectorAll('.add-new-option').forEach(addNewOption => {
-     if(addNewOption) addNewOption.addEventListener('click', e => {
-       const newOption = addNewOption.previousElementSibling.cloneNode(true)
-       newOption.querySelector('input[type="text"]').value = `Choice ${addNewOption.parentNode.childElementCount}`
-       newOption.querySelector('.delete-option').addEventListener('click', e => newOption.remove())
-       addNewOption.before(newOption)   
-     })
-   })
-}
-
-insert.addEventListener('change', e => {
-  if(!e.target.value.includes('survey')) {
-    const newQues = document.querySelector('.ques.ex.' + e.target.value).cloneNode(true)
-    newQues.classList.remove('ex')
     newQues.style.display = ''
+    newQues.classList.remove('ex')
+    
     addQuesEvents(newQues)
-    form.querySelector('.questions').append(newQues)
-  } else {
-    if(e.target.value === 'survey-mco') {
-      const newQues = document.querySelector('.ques.ex.' + 'mco').cloneNode(true)
-      insert.value = ''
+    form.append(newQues)
+  })
+  
+  form.addEventListener('submit', e => {
+    e.preventDefault()
+    const questionsNode = Array.from(document.querySelectorAll('.ques:not(.ex)'))
+    let questionsData = []
+    questionsNode.forEach(quesNode => {
+      let quesData = {}
+      quesNode.querySelectorAll('.editor2').forEach(editor => {
+        const content = editor.querySelector('p').innerHTML
+        if(editor.id.includes('option')) {
+          if(!quesData.options) quesData.options = []
+          return quesData.options.push(content)
+        }
+        quesData[editor.id] = content
+      })
+      Array.from(quesNode.querySelectorAll('input')).forEach(input => {
+        let inputName = input.name.replaceAll(/\d+/g, '')
+        if(!inputName) return
+        if(inputName === 'crctAns' && input.checked) {
+          if(!quesData.crctAns) quesData.crctAns = []
+          quesData.crctAns.push(input.value)
+        } else if(input.type === 'checkbox') {
+          quesData[inputName] = input.checked
+        } else if(inputName !== 'crctAns') {
+          console.log(input)
+          quesData[inputName] = input.value
+        }   
+      })
+      if(Object.keys(quesData).length !== 0) questionsData.push(quesData)
+    })
+    console.log(questionsData)
+    fetch(`${window.location.pathname}`, {
+      method: 'post',
+      body: JSON.stringify(questionsData),
+    })
+  })
+  // window.addEventListener('click', e => {
+  //   // activeEditor.closest('.option').classList.remove('active')
+  // })
+  
+  function addQuesEvents(ques) {
+    const id = Date.now()
+    ques.querySelectorAll('input').forEach(input => input.name += id)
+    attachEditor(ques)
+    // ques.querySelectorAll('.editor2').forEach(editor => editor.addEventListener('click', e => {
+    //   e.stopPropagation()
+    //   editor.closest('.option').classList.add('active')
+    //   // activeEditor = editor
+    // }))
+    ques.querySelector('.ques-del').addEventListener('click', () => ques.remove())
+    ques.querySelector('.ques-add-before').addEventListener('click', () => {
+      const anotherQues = ques.cloneNode(true)
+      addQuesEvents(anotherQues)
+      ques.before(anotherQues)
+    })
+    ques.querySelector('.ques-add-after').addEventListener('click', () => {
+      const anotherQues = ques.cloneNode(true)
+      addQuesEvents(anotherQues)
+      ques.after(anotherQues)
+    })
+    ques.querySelectorAll('.delete-option').forEach(deleteOption => deleteOption.addEventListener('click', () => deleteOption.closest('.option').remove()))
+     ques.querySelectorAll('.add-new-option').forEach(addNewOption => {
+       if(addNewOption) addNewOption.addEventListener('click', e => {
+         const newOption = addNewOption.previousElementSibling.cloneNode(true)
+         newOption.querySelector('input[type="text"]').value = `Choice ${addNewOption.parentNode.childElementCount}`
+         newOption.querySelector('.delete-option').addEventListener('click', e => newOption.remove())
+         addNewOption.before(newOption)   
+       })
+     })
+  }
+  
+  insert.addEventListener('change', e => {
+    if(!e.target.value.includes('survey')) {
+      const newQues = document.querySelector('.ques.ex.' + e.target.value).cloneNode(true)
       newQues.classList.remove('ex')
       newQues.style.display = ''
-      newQues.querySelector('.points').parentNode.remove()
       addQuesEvents(newQues)
-      form.querySelector('.survey-questions').append(newQues)
-    } else if(e.target.value === 'survey-answer') {
-      const template = document.querySelector('.survey-answer')
-      const newQues = template.content.cloneNode(true)
-      form.querySelector('.survey-questions').append(newQues)
-      console.log('object')
+      form.querySelector('.questions').append(newQues)
+    } else {
+      if(e.target.value === 'survey-mco') {
+        const newQues = document.querySelector('.ques.ex.' + 'mco').cloneNode(true)
+        insert.value = ''
+        newQues.querySelector('name="type"').value = 'survey-mco'
+        newQues.classList.remove('ex')
+        newQues.style.display = ''
+        newQues.querySelector('.points').parentNode.remove()
+        addQuesEvents(newQues)
+        form.querySelector('.survey-questions').append(newQues)
+      } else if(e.target.value === 'survey-answer') {
+        const template = document.querySelector('.survey-answer')
+        const newQues = template.content.cloneNode(true)
+        attachEditors(newQues)
+        form.querySelector('.survey-questions').append(newQues)
+      }
     }
-  }
-  insert.value = ''
-})
+    insert.value = ''
+  })
+  </script>
+  <script>
 // addQuestionsBefore.forEach(addQuestionBefore => addQuestionBefore.addEventListener('click', () => {
 //   const ques = addQuestionBefore.closest('.ques')
 //   const newQues = ques.cloneNode(true)
@@ -573,27 +610,27 @@ insert.addEventListener('change', e => {
 //   ques.after(newQues)
 // }))
 
-function addEvents(ques) {
-  const moveOption = ques.querySelector('.move-option')
-  const deleteOption = ques.querySelector('.delete-option')
-  const deleteQuestion = ques.querySelector('.ques-del')
-  const addQuestionBefore = ques.querySelector('.ques-add-before')
-  const addQuestionAfter = ques.querySelector('.ques-add-after')
+// function addEvents(ques) {
+//   const moveOption = ques.querySelector('.move-option')
+//   const deleteOption = ques.querySelector('.delete-option')
+//   const deleteQuestion = ques.querySelector('.ques-del')
+//   const addQuestionBefore = ques.querySelector('.ques-add-before')
+//   const addQuestionAfter = ques.querySelector('.ques-add-after')
 
-  deleteQues.addEventListener('click', () => deleteQues.closest('.ques').remove())
+//   deleteQues.addEventListener('click', () => deleteQues.closest('.ques').remove())
 
-  deleteOption.addEventListener('click', () => deleteOption.parentNode.remove())
+//   deleteOption.addEventListener('click', () => deleteOption.parentNode.remove())
 
-  ques.addEventListener('click', () => {
-    hiddenElements.forEach(hiddenElem => {
-      hiddenElem.style.transition = 'all .5s ease'
-      hiddenElem.style.maxWidth = '9999'
-      hiddenElem.style.maxHeight = '9999'
-      hiddenElem.style.opacity = '1'
-      hiddenElem.style.margin = ''
-    })
-  })
-}
+//   ques.addEventListener('click', () => {
+//     hiddenElements.forEach(hiddenElem => {
+//       hiddenElem.style.transition = 'all .5s ease'
+//       hiddenElem.style.maxWidth = '9999'
+//       hiddenElem.style.maxHeight = '9999'
+//       hiddenElem.style.opacity = '1'
+//       hiddenElem.style.margin = ''
+//     })
+//   })
+// }
 
 // addEvents(document.querySelector('.mco'))
 
@@ -605,71 +642,72 @@ function addEvents(ques) {
 //   hiddenElem.style.margin = '0'
 // })
 // function swap(nodeA, nodeB) {
-  //   const parentA = nodeA.parentNode;
-  //   const siblingA = nodeA.nextSibling === nodeB ? nodeA : nodeA.nextSibling;
+//     const parentA = nodeA.parentNode;
+//     const siblingA = nodeA.nextSibling === nodeB ? nodeA : nodeA.nextSibling;
   
-  //   nodeB.parentNode.insertBefore(nodeA, nodeB);
-  //   parentA.insertBefore(nodeB, siblingA);
-  // };
+//     nodeB.parentNode.insertBefore(nodeA, nodeB);
+//     parentA.insertBefore(nodeB, siblingA);
+//   };
   
-  // moveOptions.forEach(moveOption => {
-  //   const ques = moveOption.closest('.ques');
-  //   const option = moveOption.closest('.option');
-  //   let moveOptionHandler;
+//   moveOptions.forEach(moveOption => {
+//     const ques = moveOption.closest('.ques');
+//     const option = moveOption.closest('.option');
+//     let moveOptionHandler;
     
-  //   function placeOption(e) {
-  //     const filler = option.parentNode.querySelector('.filler')
-  //     option.style = ''
-  //     // console.log('up')
-  //     if(filler) filler.replaceWith(option)
-  //     window.removeEventListener('mousemove', moveOptionHandler)
-  //     window.removeEventListener('mousemove', startMoveOption) 
-  //     document.body.style = ''
-  //   }
+//     function placeOption(e) {
+//       const filler = option.parentNode.querySelector('.filler')
+//       option.style = ''
+//       // console.log('up')
+//       if(filler) filler.replaceWith(option)
+//       window.removeEventListener('mousemove', moveOptionHandler)
+//       window.removeEventListener('mousemove', startMoveOption) 
+//       document.body.style = ''
+//     }
   
-  //   function startMoveOption() {
-  //     const div = document.createElement('div')
-  //     div.classList.add('filler') 
-  //     div.style.width = option.offsetWidth + 'px'
-  //     div.style.height = option.offsetHeight + 'px'
-  //     div.style.margin = window.getComputedStyle(option).getPropertyValue('margin')
-  //     option.after(div)
+//     function startMoveOption() {
+//       const div = document.createElement('div')
+//       div.classList.add('filler') 
+//       div.style.width = option.offsetWidth + 'px'
+//       div.style.height = option.offsetHeight + 'px'
+//       div.style.margin = window.getComputedStyle(option).getPropertyValue('margin')
+//       option.after(div)
       
-  //     document.body.style.userSelect = 'none'
-  //     option.style.width = option.offsetWidth + 'px'
-  //     option.style.position = 'absolute'
-  //     option.style.marginTop = '0'
-  //     option.style.zIndex = '9999'
-  //     if(document.body.scrollHeight - window.scrollY === window.innerHeight) window.scrollBy(0, -20)
-  //   }
+//       document.body.style.userSelect = 'none'
+//       option.style.width = option.offsetWidth + 'px'
+//       option.style.position = 'absolute'
+//       option.style.marginTop = '0'
+//       option.style.zIndex = '9999'
+//       if(document.body.scrollHeight - window.scrollY === window.innerHeight) window.scrollBy(0, -20)
+//     }
   
-  //   moveOption.addEventListener('mousedown', e => {
-  //     const yOnOption = e.offsetY
+//     moveOption.addEventListener('mousedown', e => {
+//       const yOnOption = e.offsetY
   
-  //     window.addEventListener('mousemove', startMoveOption, {once: true})
+//       window.addEventListener('mousemove', startMoveOption, {once: true})
   
-  //     let totalY = 0;
-  //     let moveY = 0;
+//       let totalY = 0;
+//       let moveY = 0;
   
-  //     window.addEventListener('mousemove', moveOptionHandler = e => {
-  //       const otherOptions = Array.from(ques.querySelectorAll('.option')).filter(currOption => currOption !== option)
-  //       const OtherOptionsTop = otherOptions.map(otherOptions => otherOptions.getBoundingClientRect().top)
-  //       const optionTop = e.clientY
+//       window.addEventListener('mousemove', moveOptionHandler = e => {
+//         const otherOptions = Array.from(ques.querySelectorAll('.option')).filter(currOption => currOption !== option)
+//         const OtherOptionsTop = otherOptions.map(otherOptions => otherOptions.getBoundingClientRect().top)
+//         const optionTop = e.clientY
   
-  //       totalY += Math.abs(ev.movementY);
-  //       moveY += ev.movementY;
+//         totalY += Math.abs(ev.movementY);
+//         moveY += ev.movementY;
   
-  //       option.style.top = (e.clientY - ques.getBoundingClientRect().top - yOnOption) + 'px'
+//         option.style.top = (e.clientY - ques.getBoundingClientRect().top - yOnOption) + 'px'
   
-  //       if(OtherOptionsTop.includes(optionTop) ) {
-    //         const optionToSwap = otherOptions[OtherOptionsTop.indexOf(optionTop)]
-    //         const filler = ques.querySelector('.filler')
-    //         swap(optionToSwap, filler)
-    //       }
-    //       if(optionTop <= 0) window.scrollTo({top: 0, left: 0, behavior: "smooth"})
-    //       // if(optionTop >= window.innerHeight) window.scrollBy({top: -100, left: 0, behavior: "smooth"})
-    //     })
-    //     window.addEventListener('mouseup', placeOption, {once: true})
-    //   })
-    // })
+//         if(OtherOptionsTop.includes(optionTop) ) {
+//             const optionToSwap = otherOptions[OtherOptionsTop.indexOf(optionTop)]
+//             const filler = ques.querySelector('.filler')
+//             swap(optionToSwap, filler)
+//           }
+//           if(optionTop <= 0) window.scrollTo({top: 0, left: 0, behavior: "smooth"})
+//           // if(optionTop >= window.innerHeight) window.scrollBy({top: -100, left: 0, behavior: "smooth"})
+//         })
+//         window.addEventListener('mouseup', placeOption, {once: true})
+//       })
+//     })
   </script>
+</body>

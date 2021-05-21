@@ -131,6 +131,18 @@ router.post('/:position/admin/publish', asyncHandler(async (req, res, next) => {
   res.redirect(`/${testPos}/admin/publish`)
 }))
 
+router.get('/:position/admin/reports', asyncHandler(async (req, res, next) => {
+  const testPos = req.params.position
+  const test = (await Test.findOne({ position: testPos })).toJSON()
+  const avgTime = test.students.reduce((accumulator, student) => accumulator + student.time, 0) / test.students.length
+  const avgScore = test.students.reduce((accumulator, student) => accumulator + parseInt(student.score.match(/\d+/)[0]), 0) / test.students.length
+  if (test) {
+    res.render('test/results', { ...test, testPos, dateFormat, avgTime, avgScore })
+  } else {
+    next()
+  }
+}))
+
 function ensureAuthenticated(req, res, next) {
   const position = req.params.position
   if (req.user && req.user.position == position) {
