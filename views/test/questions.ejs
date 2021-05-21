@@ -7,7 +7,7 @@
     <p class="info" style="margin-top: 50px;">
       Your test has no questions! Use the drop-down below to insert a question.
     </p>
-    <form action="" method="POST" class="center" id="all-questions">
+    <form action="" method="POST" class="center-col" id="all-questions">
       <div class="survey-questions" style="width: 100%;"></div>
       <div class="questions" style="width: 100%;"></div>
     </form>
@@ -55,8 +55,8 @@
         </div>
       </div>
     </template>
-    <div class="ques ex mco" style="display: none;">
-      <input type="hidden" name="type" value="mco">
+    <template id="ques-header">
+      <input type="hidden" name="type" value="">
       <div class="ques-mods">
         <span class="ques-add-before" style="transform: translateY(-50%);">+</span>
         <span class="ques-del" style="background-color: red;">-</span>
@@ -64,10 +64,10 @@
       </div>
       <div class="ques_row">
         <div class="ques_row_col">
-          <div style="display: flex;align-items: center;">
-            <span class="ques-pos hidden ques-pos-left" style="font-size: 12px;"><i class="fas fa-arrows-alt-v"></i></span>
+          <div class="center-row">
+            <span class="ques-pos hidden ques-pos-left"><i class="fas fa-arrows-alt-v"></i></span>
             <strong>1.</strong>
-            <span class="ques-pos hidden ques-pos-right" style="font-size: 12px;"><i class="fas fa-arrows-alt-v"></i></span>
+            <span class="ques-pos hidden ques-pos-right"><i class="fas fa-arrows-alt-v"></i></span>
           </div>
           <div id="name" class="editor2">Question</div>
         </div>
@@ -80,36 +80,16 @@
           <label style="margin-left: 2px;"><small>points</small></label>
         </div>
       </div>
-      <div>
-        <div class="option">
-          <p class="move-option hidden"><i class="fas fa-arrows-alt-v"></i></p>
-          <input type="radio" name="crctAns" value="option1" id="">
-          <div id="option1" class="editor2" id="option1">Choice 1</div>
-          <p class="delete-option"><i class="fas fa-trash-alt"></i></p>
-        </div>
-        <div class="option">
-          <p class="move-option hidden"><i class="fas fa-arrows-alt-v"></i></p>
-          <input type="radio" name="crctAns" value="option2" id="">
-          <div id="option2" class="editor2">Choice 2</div>
-          <p class="delete-option"><i class="fas fa-trash-alt"></i></p>
-        </div>
-        <div class="option">
-          <p class="move-option hidden"><i class="fas fa-arrows-alt-v"></i></p>
-          <input type="radio" name="crctAns" value="option3" id="" checked>
-          <div id="option3" class="editor2">Choice 3</div>
-          <p class="delete-option"><i class="fas fa-trash-alt"></i></p>
-        </div>
-        <div class="option">
-          <p class="move-option hidden"><i class="fas fa-arrows-alt-v"></i></p>
-          <input type="radio" name="crctAns" value="option4" id="">
-          <div id="option4" class="editor2">Choice 4</div>
-          <p class="delete-option"><i class="fas fa-trash-alt"></i></p>
-        </div>
-        <div class="add-new-option hidden">
-          <input type="checkbox" style="margin-right: 7px;" disabled>
-          <label style="color: gray;">Click to add a new answer choice</label>
-        </div>
+    </template>
+    <template id="mc-option">
+      <div class="option">
+        <p class="move-option hidden"><i class="fas fa-arrows-alt-v"></i></p>
+        <input type="radio" name="crctAns" value="">
+        <div id="" class="editor2">Choice</div>
+        <p class="delete-option"><i class="fas fa-trash-alt"></i></p>
       </div>
+    </template>
+    <template id="mc-footer">
       <div class="hidden last-row">
         <input type="checkbox" name="" id="show-exp">
         <label for="show-exp" style="font-size: 12px;">Show explanation</label>
@@ -117,274 +97,112 @@
           <option value="">abc</option>
         </select>
       </div>
-    </div>
-    <div class="ques ex mcm" style="display: none;">
-      <input type="hidden" name="type" value="mcm">
-      <div class="ques-mods">
-        <span class="ques-add-before" style="transform: translateY(-50%);">+</span>
-        <span class="ques-del" style="background-color: red;">-</span>
-        <span class="ques-add-after" style="transform: translateY(50%);">+</span>
-      </div>
-      <div class="ques_row">
-        <div class="ques_row_col">
-          <div style="display: flex;align-items: center;">
-            <span class="ques-pos hidden ques-pos-left" style="font-size: 12px;"><i class="fas fa-arrows-alt-v"></i></span>
-            <strong>1.</strong>
-            <span class="ques-pos hidden ques-pos-right" style="font-size: 12px;"><i class="fas fa-arrows-alt-v"></i></span>
-          </div>
-          <input type="text" name="name" class="ques-name no-input" value="Question">
-        </div>
-        <div class="ques_row_col" style="text-align: right;">
-          <p class="shuffle">
-            <input type="checkbox" name='shuffle'>
-            <i class="fas fa-random"></i>
-          </p>
-          <input type="number" value=1 name="points" id="" class="points">
-          <label style="margin-left: 2px;"><small>points</small></label>
-        </div>
-      </div>
-      <div>
-        <div class="option">
-          <p class="move-option hidden"><i class="fas fa-arrows-alt-v"></i></p>
-          <input type="checkbox" name="crctAns" value="Choice 1" id="">
-          <input type="text" name="option1" value="Choice 1">
-          <p class="delete-option"><i class="fas fa-trash-alt"></i></p>
-        </div>
-        <div class="option">
-          <p class="move-option hidden"><i class="fas fa-arrows-alt-v"></i></p>
-          <input type="checkbox" name="crctAns" value="Choice 2" id="">
-          <input type="text" name="option2" value="Choice 2">
-          <p class="delete-option"><i class="fas fa-trash-alt"></i></p>
-        </div>
-        <div class="option">
-          <p class="move-option hidden"><i class="fas fa-arrows-alt-v"></i></p>
-          <input type="checkbox" name="crctAns" value="Choice 3" id="" checked>
-          <input type="text" name="option3" value="Choice 3">
-          <p class="delete-option"><i class="fas fa-trash-alt"></i></p>
-        </div>
-        <div class="option">
-          <p class="move-option hidden"><i class="fas fa-arrows-alt-v"></i></p>
-          <input type="checkbox" name="crctAns" value="Choice 4" id="">
-          <input type="text" name="option4" value="Choice 4">
-          <p class="delete-option"><i class="fas fa-trash-alt"></i></p>
-        </div>
-        <div class="option">
-          <p class="move-option hidden"><i class="fas fa-arrows-alt-v"></i></p>
-          <input type="checkbox" name="crctAns" value="Choice 5" id="">
-          <input type="text" name="option5" value="Choice 5">
-          <p class="delete-option"><i class="fas fa-trash-alt"></i></p>
-        </div>
-        <div class="add-new-option hidden">
-          <input type="checkbox" style="margin-right: 7px;" disabled>
-          <label style="color: gray;">Click to add a new answer choice</label>
-        </div>
-      </div>
-      <div class="hidden last-row">
-        <div>
-          <input type="checkbox" name="" id="show-exp">
-          <label for="show-exp" style="font-size: 12px;margin-right: 5px;">Show explanation</label>
-          <input type="checkbox" name="" id="show-exp">
-          <label for="show-exp" style="font-size: 12px;">Give partial credit</label>
-        </div>
-        <select name="" id="" style="margin-left: 10px;">
-          <option value="">abc</option>
-        </select>
-      </div>
-    </div> 
-    <div class="ques ex tf" style="display: none;">
-      <input type="hidden" name="type" value="tf">
-      <div class="ques-mods">
-        <span class="ques-add-before" style="transform: translateY(-50%);">+</span>
-        <span class="ques-del" style="background-color: red;">-</span>
-        <span class="ques-add-after" style="transform: translateY(50%);">+</span>
-      </div>
-      <div class="ques_row">
-        <div class="ques_row_col">
-          <div style="display: flex;align-items: center;">
-            <span class="ques-pos hidden ques-pos-left" style="font-size: 12px;"><i class="fas fa-arrows-alt-v"></i></span>
-            <strong>1.</strong>
-            <span class="ques-pos hidden ques-pos-right" style="font-size: 12px;"><i class="fas fa-arrows-alt-v"></i></span>
-          </div>
-          <input type="text" name="name" class="ques-name no-input" value="Question">
-        </div>
-        <div class="ques_row_col" style="text-align: right;">
-          <p class="shuffle">
-            <input type="checkbox" name='shuffle'>
-            <i class="fas fa-random"></i>
-          </p>
-          <input type="number" value=1 name="points" id="" class="points">
-          <label style="margin-left: 2px;"><small>points</small></label>
-        </div>
-      </div>
-      <div>
-        <div class="option">
-          <input type="radio" name="" id="">
-          <input type="text" value="True">
-        </div>
-        <div class="option">
-          <input type="radio" name="" id="">
-          <input type="text" value="False">
-        </div>  
-      </div>
-      <div class="hidden last-row">
-        <div>
-          <input type="checkbox" name="" id="show-exp">
-          <label for="show-exp" style="font-size: 12px;margin-right: 5px;">Show explanation</label>
-        </div>
-        <select name="" id="" style="margin-left: 10px;">
-          <option value="">abc</option>
-        </select>
-      </div>
-    </div> 
-    <div class="ques ex matching" style="display: none;">
-      <div class="ques-mods">
-        <span class="ques-add-before" style="transform: translateY(-50%);">+</span>
-        <span class="ques-del" style="background-color: red;">-</span>
-        <span class="ques-add-after" style="transform: translateY(50%);">+</span>
-      </div>
-      <div class="ques_row">
-        <div class="ques_row_col">
-          <div style="display: flex;align-items: center;">
-            <span class="ques-pos hidden ques-pos-left" style="font-size: 12px;"><i class="fas fa-arrows-alt-v"></i></span>
-            <strong>1.</strong>
-            <span class="ques-pos hidden ques-pos-right" style="font-size: 12px;"><i class="fas fa-arrows-alt-v"></i></span>
-          </div>
-          <input type="text" name="name" class="ques-name no-input" value="Question">
-        </div>
-        <div class="ques_row_col" style="text-align: right;">
-          <p class="shuffle">
-            <input type="checkbox" name='shuffle'>
-            <i class="fas fa-random"></i>
-          </p>
-          <input type="number" value="1" name="points" id="" class="points">
-          <label style="margin-left: 2px;"><small>points</small></label>
-        </div>
-      </div>
-      <div style="display: grid;grid-template-columns: 44% 44%;justify-content: space-between;">
-        <div class="col-1">
-          <div class="option">
-            <p class="move-option hidden"><i class="fas fa-arrows-alt-v"></i></p>
-            <Select>
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-            </Select>
-            <input type="text" value="Cat">
-            <p class="delete-option"><i class="fas fa-trash-alt"></i></p>
-          </div>
-          <div class="option">
-            <p class="move-option hidden"><i class="fas fa-arrows-alt-v"></i></p>
-            <Select>
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-            </Select>
-            <input type="text" value="Whale">
-            <p class="delete-option"><i class="fas fa-trash-alt"></i></p>
-          </div>
-          <div class="option">
-            <p class="move-option hidden"><i class="fas fa-arrows-alt-v"></i></p>
-            <Select>
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-            </Select>
-            <input type="text" value="Gecko">
-            <p class="delete-option"><i class="fas fa-trash-alt"></i></p>
-          </div>
-          <div class="option">
-            <p class="move-option hidden"><i class="fas fa-arrows-alt-v"></i></p>
-            <Select>
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-            </Select>
-            <input type="text" value="Spider">
-            <p class="delete-option"><i class="fas fa-trash-alt"></i></p>
-          </div>
-          <div class="add-new-option hidden">
-            <div style="margin-right: 20px;"></div>
-            <label style="color: gray;">Click to add a new matching sub-question</label>
-          </div>
-        </div>
-        <div class="col-2" style="display: flex;">
-          <p class="shuffle" style="margin-top: 20px;">
-            <input type="checkbox" name='shuffle' checked>
-            <i class="fas fa-random"></i>
-          </p>
-          <div>
+    </template>
+    <template id="matching">
+      <div class="ques ex matching" style="display: none;">
+        <div style="display: grid;grid-template-columns: 44% 44%;justify-content: space-between;">
+          <div class="col-1">
             <div class="option">
               <p class="move-option hidden"><i class="fas fa-arrows-alt-v"></i></p>
-              <p><span>1. </span><input type="text" value="Mammal"></p>
+              <Select>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+              </Select>
+              <input type="text" value="Cat">
               <p class="delete-option"><i class="fas fa-trash-alt"></i></p>
             </div>
             <div class="option">
               <p class="move-option hidden"><i class="fas fa-arrows-alt-v"></i></p>
-              <p><span>2. </span><input type="text" value="Insect"></p>
+              <Select>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+              </Select>
+              <input type="text" value="Whale">
               <p class="delete-option"><i class="fas fa-trash-alt"></i></p>
             </div>
             <div class="option">
               <p class="move-option hidden"><i class="fas fa-arrows-alt-v"></i></p>
-              <p><span>3. </span><input type="text" value="Arachnid"></p>
+              <Select>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+              </Select>
+              <input type="text" value="Gecko">
               <p class="delete-option"><i class="fas fa-trash-alt"></i></p>
             </div>
             <div class="option">
               <p class="move-option hidden"><i class="fas fa-arrows-alt-v"></i></p>
-              <p><span>4. </span><input type="text" value="Reptile"></p>
+              <Select>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+              </Select>
+              <input type="text" value="Spider">
               <p class="delete-option"><i class="fas fa-trash-alt"></i></p>
             </div>
             <div class="add-new-option hidden">
               <div style="margin-right: 20px;"></div>
-              <label style="color: gray;">Click to add a new matching answer option</label>
+              <label style="color: gray;">Click to add a new matching sub-question</label>
+            </div>
+          </div>
+          <div class="col-2" style="display: flex;">
+            <p class="shuffle" style="margin-top: 20px;">
+              <input type="checkbox" name='shuffle' checked>
+              <i class="fas fa-random"></i>
+            </p>
+            <div>
+              <div class="option">
+                <p class="move-option hidden"><i class="fas fa-arrows-alt-v"></i></p>
+                <p><span>1. </span><input type="text" value="Mammal"></p>
+                <p class="delete-option"><i class="fas fa-trash-alt"></i></p>
+              </div>
+              <div class="option">
+                <p class="move-option hidden"><i class="fas fa-arrows-alt-v"></i></p>
+                <p><span>2. </span><input type="text" value="Insect"></p>
+                <p class="delete-option"><i class="fas fa-trash-alt"></i></p>
+              </div>
+              <div class="option">
+                <p class="move-option hidden"><i class="fas fa-arrows-alt-v"></i></p>
+                <p><span>3. </span><input type="text" value="Arachnid"></p>
+                <p class="delete-option"><i class="fas fa-trash-alt"></i></p>
+              </div>
+              <div class="option">
+                <p class="move-option hidden"><i class="fas fa-arrows-alt-v"></i></p>
+                <p><span>4. </span><input type="text" value="Reptile"></p>
+                <p class="delete-option"><i class="fas fa-trash-alt"></i></p>
+              </div>
+              <div class="add-new-option hidden">
+                <div style="margin-right: 20px;"></div>
+                <label style="color: gray;">Click to add a new matching answer option</label>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="hidden last-row">
-        <div>
-          <input type="checkbox" name="" id="show-exp">
-          <label for="show-exp" style="font-size: 12px;margin-right: 5px;">Show explanation</label>
-          <input type="checkbox" name="" id="show-exp">
-          <label for="show-exp" style="font-size: 12px;">Give partial credit</label>
-          <label for="">Match Style</label>
-          <select name="" id="">
-            <option value="">Numeric</option>
-            <option value="">Text</option>
+        <div class="hidden last-row">
+          <div>
+            <input type="checkbox" name="" id="show-exp">
+            <label for="show-exp" style="font-size: 12px;margin-right: 5px;">Show explanation</label>
+            <input type="checkbox" name="" id="show-exp">
+            <label for="show-exp" style="font-size: 12px;">Give partial credit</label>
+            <label for="">Match Style</label>
+            <select name="" id="">
+              <option value="">Numeric</option>
+              <option value="">Text</option>
+            </select>
+          </div>
+          <select name="" id="" style="margin-left: 10px;">
+            <option value="">abc</option>
           </select>
         </div>
-        <select name="" id="" style="margin-left: 10px;">
-          <option value="">abc</option>
-        </select>
       </div>
-    </div>
-    <div class="ques ex fib" style="display: none;">
-      <div class="ques-mods">
-        <span class="ques-add-before" style="transform: translateY(-50%);">+</span>
-        <span class="ques-del" style="background-color: red;">-</span>
-        <span class="ques-add-after" style="transform: translateY(50%);">+</span>
-      </div>
-      <div class="ques_row">
-        <div class="ques_row_col">
-          <div style="display: flex;align-items: center;">
-            <span class="ques-pos hidden ques-pos-left" style="font-size: 12px;"><i class="fas fa-arrows-alt-v"></i></span>
-            <strong>1.</strong>
-            <span class="ques-pos hidden ques-pos-right" style="font-size: 12px;"><i class="fas fa-arrows-alt-v"></i></span>
-          </div>
-          <input type="text" name="name" class="ques-name no-input" value="Question">
-        </div>
-        <div class="ques_row_col" style="text-align: right;">
-          <p class="shuffle">
-            <input type="checkbox" name='shuffle'>
-            <i class="fas fa-random"></i>
-          </p>
-          <input type="number" value="1" name="points" id="" class="points">
-          <label style="margin-left: 2px;"><small>points</small></label>
-        </div>
-      </div>
+    </template>
+    <template id="fib">
       <div>
         <input type="text" name="" id="" value="Correct answer text">
         <div><span>Alternative Answer</span><input type="text" value="Choice 1"></div>
@@ -404,31 +222,8 @@
           <option value="">abc</option>
         </select>
       </div>
-    </div> 
-    <div class="ques ex essay" style="display: none;">
-      <div class="ques-mods">
-        <span class="ques-add-before" style="transform: translateY(-50%);">+</span>
-        <span class="ques-del" style="background-color: red;">-</span>
-        <span class="ques-add-after" style="transform: translateY(50%);">+</span>
-      </div>
-      <div class="ques_row">
-        <div class="ques_row_col">
-          <div style="display: flex;align-items: center;">
-            <span class="ques-pos hidden ques-pos-left" style="font-size: 12px;"><i class="fas fa-arrows-alt-v"></i></span>
-            <strong>1.</strong>
-            <span class="ques-pos hidden ques-pos-right" style="font-size: 12px;"><i class="fas fa-arrows-alt-v"></i></span>
-          </div>
-          <input type="text" name="name" class="ques-name no-input" value="Question">
-        </div>
-        <div class="ques_row_col" style="text-align: right;">
-          <p class="shuffle">
-            <input type="checkbox" name='shuffle'>
-            <i class="fas fa-random"></i>
-          </p>
-          <input type="number" value="1" name="points" id="" class="points">
-          <label style="margin-left: 2px;"><small>points</small></label>
-        </div>
-      </div>
+    </template>
+    <template id="essay">
       <div>
         <textarea name="" id="" style="width: 100%;min-height: 200px;"></textarea>
       </div>
@@ -441,8 +236,9 @@
           <option value="">abc</option>
         </select>
       </div>
-    </div>
-  </div>
+    </template>
+    
+
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/froala-editor@3.1.0/js/froala_editor.pkgd.min.js"></script>
   <!-- <script src="https://cdn.ckeditor.com/ckeditor5/27.1.0/inline/ckeditor.js"></script> -->
   <script>
@@ -567,30 +363,30 @@
        })
      })
   }
-  
+  function mco() {
+    const newQues = document.createElement('div')
+    const quesHeader = document.querySelector('#ques-header').content.cloneNode()
+    const mcOption = document.querySelector('#mc-option').content.cloneNode()
+    const mcFooter = document.querySelector('#mc-footer').content.cloneNode()
+    const quesType = quesHeader.querySelector('input[name="type"]')
+    const optionContainer = document.createElement('div')
+
+    quesType.value = 'mco'
+    for(let i = 1; i <= 4; i++) {
+      const newMCO = mcOption.cloneNode(true)
+      newMCO.querySelector('input[name="crctAns"]').value = i
+      newMCO.querySelector('.editor').name = i
+      optionContainer.push(newMCO)
+    }
+    newQues.append(quesHeader, optionContainer, mcFooter)
+    form.append(newQues)
+  }
+
   insert.addEventListener('change', e => {
-    if(!e.target.value.includes('survey')) {
-      const newQues = document.querySelector('.ques.ex.' + e.target.value).cloneNode(true)
-      newQues.classList.remove('ex')
-      newQues.style.display = ''
-      addQuesEvents(newQues)
-      form.querySelector('.questions').append(newQues)
-    } else {
-      if(e.target.value === 'survey-mco') {
-        const newQues = document.querySelector('.ques.ex.' + 'mco').cloneNode(true)
-        insert.value = ''
-        newQues.querySelector('name="type"').value = 'survey-mco'
-        newQues.classList.remove('ex')
-        newQues.style.display = ''
-        newQues.querySelector('.points').parentNode.remove()
-        addQuesEvents(newQues)
-        form.querySelector('.survey-questions').append(newQues)
-      } else if(e.target.value === 'survey-answer') {
-        const template = document.querySelector('.survey-answer')
-        const newQues = template.content.cloneNode(true)
-        attachEditors(newQues)
-        form.querySelector('.survey-questions').append(newQues)
-      }
+    switch(e.target.value) {
+      case 'mco': 
+        mco()
+        break
     }
     insert.value = ''
   })

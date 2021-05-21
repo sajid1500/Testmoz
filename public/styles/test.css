@@ -799,6 +799,10 @@ form {
     margin-right: 10px;
   }
 
+  .ques-pos {
+    font-size: 12px;
+  }
+
   .ques-pos-left {
     display: flex;
   }

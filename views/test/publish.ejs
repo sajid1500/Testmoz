@@ -11,12 +11,12 @@
           <p>You need to publish your test to make it available for your students to take. You can <a href="/q/<%= position %>?preview" style="color: darkblue;text-decoration: underline;">preview your test</a> to make sure it looks good. It's OK to edit your test after you publish (but it may cause inconsistencies in the results).</p>
           <h1>Ready to publish?</h1>
           <p>We didn't find any problems with your test. Just click Publish and you're good to go.</p>
-          <div class="center"><form action="publish" method="POST" style="text-align: center;"><input type="submit" value="Publish" style="padding: 5px;"></form></div>
+          <div class="center-col"><form action="publish" method="POST" style="text-align: center;"><input type="submit" value="Publish" style="padding: 5px;"></form></div>
         </div>
       <% } else { %> 
         <div>
           <div>
-            <div class="center" style="padding: 5px;;background-color: #FFFBB1;"> 
+            <div class="center-col" style="padding: 5px;;background-color: #FFFBB1;"> 
               <p><strong>test is published and available at:</strong></p>
               <strong><a class="norm-link" href="/q/<%= position %>">testmoz.com/<%= position %> </a></strong>
             </div>
