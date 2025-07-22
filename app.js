@@ -14,9 +14,10 @@ const app = express();
 
 // connect to mongodb and listen for requests
 const db = require('./config/keys').mongoURI
+const PORT=process.env.PORT || 3000
 
 mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: true })
-  .then(res => app.listen(3000, () => console.log('listening on 3000')))
+  .then(res => app.listen(PORT, () => console.log('listening on 3000')))
   .catch(err => console.log(err))
 
 app.set('view engine', 'ejs');
