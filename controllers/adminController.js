@@ -22,16 +22,16 @@ const test_admin = async (req, res, next) => {
   }
 })
 
-router.get('/:position/admin/settings', async (req, res, next) => {
-  const testPos = req.params.position
-  const test = await (await Test.findOne({ position: testPos })).toJSON()
+  router.get('/:position/admin/settings', async (req, res, next) => {
+    const testPos = req.params.position
+    const test = await (await Test.findOne({ position: testPos })).toJSON()
 
-  if (test) {
-    res.render('test/settings', { ...test, dashboard: `/${testPos}/admin`, areErrors: false })
-  } else {
-    next()
-  }
-}))
+    if (test) {
+      res.render('test/settings', { ...test, dashboard: `/${testPos}/admin`, areErrors: false })
+    } else {
+      next()
+    }
+  }))
 
 router.post('/:position/admin/settings', async (req, res, next) => {
   const { name, intro, theme, lang } = req.body

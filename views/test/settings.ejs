@@ -1,18 +1,18 @@
 <html lang="en">
   <%- include("./partials/head.ejs") %>
 
-  <body class="settings">
+  <body id="settings-pg">
     <%- include("./partials/nav.ejs") %>
-    <form action="" method="post" class="right">
+    <form action="" method="post" class="right" onsubmit="handleSubmit(event)">
       <%- include("./partials/pay.ejs") %>
-      <% if(areErrors) { %>
-        <p class="errors">Please correct the error(s) below.</p>
+      <% if(errors.length !== 0) { %>
+        <p class="error2">Please correct the error(s) below.</p>
       <% } %>
       <fieldset>
         <legend>Basic Settings</legend>
         <label for="name">Test Name</label>
-        <input type="text" name="name" id="name" value="<%= name %>" />
-        <% if(!name) { %>
+        <input type="text" name="name" id="name" value="<%= errors.includes('name') ? '' : name %>" />
+        <% if(errors.includes('name')) { %>
           <p class="error">Enter a name for your test</p>
         <% } %>
         <label>Introduction</label>
@@ -21,8 +21,8 @@
           your instructions or anything else. It can be blank.
         </p>
         <textarea id="fr-editor1" name="intro"><%= intro %></textarea>
-        <label>Color Scheme</label>
-        <section class="themes">
+        <!-- <label>Color Scheme</label> -->
+        <!-- <section class="themes">
           <label class="<%= theme==="white" ? "active" : "" %>" for="theme1">
             <input type="radio" id="theme1" name="theme" value="white">
             <a href="/themes/edit/1">
@@ -75,8 +75,8 @@
               </ul>
             </a>
           </label>
-        </section>
-        <label for="lang" style="display: inline-block;">Choose the language for the Testmoz student interface: </label>
+        </section> -->
+        <!-- <label for="lang" style="display: inline-block;">Choose the language for the Testmoz student interface: </label>
         <select name="lang" id="lang" style="display: inline-block;padding: 5px;">
           <option value="auto" <%= lang==='auto' ? 'selected' : ''%>>Detect automatically</option>
           <option value="en" <%= lang==='en' ? 'selected' : ''%>>English</option>
@@ -85,29 +85,27 @@
           <option value="hi" <%= lang==='hi' ? 'selected' : ''%>>Hindi</option>
           <option value="es" <%= lang==='es' ? 'selected' : ''%>>Spanish</option>
         </select>
-        <p class="form-help">This language is used when displaying Testmoz specific words like "Start Test", "Points", "Correct", "Incorrect" to your students. Even if your language isn't listed, you can still write your questions in any language you want.</p>
+        <p class="form-help">This language is used when displaying Testmoz specific words like "Start Test", "Points", "Correct", "Incorrect" to your students. Even if your language isn't listed, you can still write your questions in any language you want.</p> -->
       </fieldset>
       <fieldset>
         <legend>Question Settings</legend>
-        <label><input 
+        <!-- <label><input 
           onclick="document.querySelector('.extra-options').classList.remove('open')" 
           type="radio" 
           name="quesPerPg" 
           value="all"
-          <%= quesPerPg.amount==='all' ? 'checked' : ''%> 
           >Show <strong>all</strong> the test questions on one page (recommended for new users of Testmoz)</label>
         <label><input 
           onclick="document.querySelector('.extra-options').classList.add('open')" 
           type="radio" 
           name="quesPerPg" 
           value="one"
-          <%= quesPerPg.amount==='one' ? 'checked' : ''%> 
           >Show <strong>one</strong> question per page (recommended for new users of Testmoz)</label>
         <div style="margin-left: 20px;" class="extra-options">
           <div>
             <label><strong>Navigation Settings</strong></label>
-            <label><input type="radio" name="nav" value="different" <%= quesPerPg.nav === 'different' ? 'checked' : ''%>>Allow the student to jump around to different questions in the test</label>
-            <label><input type="radio" name="nav" value="forward" <%= quesPerPg.nav === 'forward' ? 'checked' : ''%>>Only allow the student to move forward after answering a question</label>
+            <label><input type="radio" name="nav" value="different" >>Allow the student to jump around to different questions in the test</label>
+            <label><input type="radio" name="nav" value="forward" >Only allow the student to move forward after answering a question</label>
           </div>
           <div style="margin-top: 5px;">
             <label><strong>After each question is answered:</strong></label>
@@ -116,31 +114,27 @@
               type="checkbox" 
               name="show" 
               value="res"
-              <%= quesPerPg.show.includes('res') ? 'checked' : ''%>
               >Indicate if the student's response was correct or incorrect</label>
             <label><input 
               onclick="uncheckLast(this)" 
               type="checkbox" 
               name="show" 
               value="ans"
-              <%= quesPerPg.show.includes('ans') ? 'checked' : ''%>
               >Display the correct answer</label>
             <label><input 
               onclick="uncheckLast(this)" 
               type="checkbox" 
               name="show" 
               value="exp"
-              <%= quesPerPg.show.includes('exp') ? 'checked' : ''%>
               >Show the explanation (if there is one)</label>
             <label><input 
               onclick="uncheckSiblings(this)" 
               type="checkbox" 
               name="show" 
               value="nothing"
-              <%= quesPerPg.show.includes('nothing') ? 'checked' : ''%>
               >Don't show anything. Just move on to the next question.  You can still show the question feedback at the end of the test. See the Review Settings section below.</label>
           </div>
-        </div>
+        </div> -->
         <label style="margin-top: 20px;"><input 
           type="checkbox" 
           name="randQues" 
@@ -154,14 +148,17 @@
         <p class="form-help">This text is displayed after the test is submitted.</p>
         <textarea name="con" id="fr-editor2"><%= con %></textarea>
         <label><input 
-          onclick="document.querySelector('.slider').classList.toggle('open')" 
+          onchange="toggleSlider(this,document.querySelector('.slider'))" 
           type="checkbox" 
           name="showMsg"
           <%= showMsg ? 'checked' : ''%> 
           ><strong>Show a custom message if the student passed or failed</strong></label>
-        <div style="margin-left: 20px;" class="slider <%= showMsg ? 'open' : ''%>">
+        <div class="slider <%= showMsg ? 'open' : ''%>">
           <label><strong>What is the passing score?</strong></label>
           <div><input style="width: 80px;padding: 2px 4px;font-size: 17px;font-weight: 100;" type="number" name="passScore" step="0.01">%</div>
+          <% if(errors.includes('showMsg')) { %>
+            <p class="error">This field is required.</p>
+          <% } %>
           <label><strong>Pass Message</strong></label>
           <p class="form-help">If the student passes, this text is displayed:</p>
           <textarea name="passMsg" id="fr-editor3"><%= passMsg %></textarea>
@@ -178,34 +175,28 @@
         <label><input 
           type="checkbox" 
           name="showOutline"
-          onclick="handleDisable(event)" 
-          <%= showOutline.value ? 'checked' : '' %> 
+          onclick="toggleCheckboxes(this, document.querySelector('.outline-options'))" 
+          <%= showOutline ? 'checked' : '' %> 
           >Test outline
           <span class="tooltip">[?]
             <small class="tooltip-text">After the test is submitted, the outline will re-display all the questions, along with the student's response, and the question's explanation (if you set one).</small>
           </span>
         </label>
-        <div style="margin-left: 20px;">
+        <div style="margin-left: 20px;" class="outline-options">
           <label><input 
             type="checkbox" 
-            name="outlineOpt" 
-            value="res"
-            <%= showOutline.value ? '' : 'disabled' %> 
-            <%= showOutline.options.includes('res') ? 'checked' : '' %> 
+            name="indRes" 
+            <%= indRes ? 'checked' : '' %> 
             >Indicate if their response was correct or incorrect</label>
           <label><input 
             type="checkbox" 
-            name="outlineOpt"
-            value="ans"
-            <%= showOutline.value ? '' : 'disabled' %> 
-            <%= showOutline.options.includes('ans') ? 'checked' : '' %>
+            name="disCrctAns"
+            <%= disCrctAns ? 'checked' : '' %> 
             >Display the correct answer</label>
           <label><input 
             type="checkbox" 
-            name="outlineOpt"
-            value="exp"
-            <%= showOutline.value ? '' : 'disabled' %> 
-            <%= showOutline.options.includes('exp') ? 'checked' : '' %>
+            name="disExp"
+            <%= disExp ? 'checked' : '' %> 
             >Display the explanation</label>
         </div>
       </fieldset>
@@ -214,32 +205,92 @@
         <div class="grid">
           <div class="grid-col-1" style="margin-top: 5px;">
             <h4>Who can take your test?</strong></h4>
+            <% if(errors.includes('authorization')) { %>
+              <p class="error">This field is required.</p>
+            <% } %>
+            <input type="hidden" name="authorization">
             <div class="form-group">
-              <label><input type="checkbox" name="access" class="wat"><strong>Anyone</strong></label>
+              <label><input 
+                type="checkbox" 
+                name="authorization" 
+                class="checkboxLikeRadio" 
+                value="anyone"
+                <%= authorization === 'anyone' ? 'checked' : '' %>
+                ><strong>Anyone</strong></label>
             </div>
             <div class="form-group">
               <label><input 
                 type="checkbox" 
-                name="access"
-                class="wat"
-                onclick="document.querySelector('.weird').classList.toggle('open')"
+                name="authorization"
+                value="studPass"
+                class="checkboxLikeRadio"
+                onchange="toggleSlider(this, document.querySelector('.slider-password'))"
+                <%= authorization === 'studPass' ? 'checked' : '' %>
                 >Anyone who enters a <strong>passcode</strong> of my choosing
               </label>
-              <div style="margin-left: 15px;" class="weird">
+              <div class="slider slider-password <%= authorization === 'studPass' ? 'open' : ''%>">
                 <p style="font-weight: 400;">Set the passcode your students will need to enter to start the test</p>
                 <p style="font-size: 14px;font-weight: 400;">It is case sensitive.</p>
                 <input 
                 style="max-width: 100px;"
                 type="text" 
-                name="studentPass"
+                name="studPass"
+                value="<%= studPass %>"
                 >
+                <% if(errors.includes('studPass')) { %>
+                  <p class="error">This field is required.</p>
+                <% } %>
               </div>
             </div>
             <div class="form-group">
-              <label><input class="wat" type="checkbox" name="access" onclick="openPayContainer(event)">Anyone who enters a <strong>unique identifier</strong> (student ID, employee ID, etc) from a list that I specify</label>
+              <label><input 
+                class="checkboxLikeRadio" 
+                type="checkbox" 
+                name="authorization" 
+                value="identities"
+                onchange="toggleSlider(this, document.querySelector('.slider-identifier'))"
+                <%= authorization === 'identities' ? 'checked' : '' %>
+                >Anyone who enters a <strong>unique identifier</strong> (student ID, employee ID, etc) from a list that I specify
+              </label>
+              <div class="slider slider-identifier <%= authorization === 'identities' ? 'open' : ''%>">
+                <p>Enter the identifiers of all the people who can take your test</p>
+                <p style="font-size: 14px;font-weight: 400;">One identifier per line</p>
+                <textarea 
+                type="text" 
+                name="identities"
+                value="<%= identities %>"
+                ></textarea>
+                <% if(errors.includes('identities')) { %>
+                  <p class="error">This field is required.</p>
+                <% } %>
+                <p>These identifiers should be secret or unguessable. Otherwise, a malicious student could enter someone else's identifier!</p>
+              </div>
             </div>
             <div class="form-group">
-              <label><input class="wat" type="checkbox" name="access" onclick="openPayContainer(event)">Anyone who enters an <strong>email address</strong> from a list that I specify</label>
+              <label>
+                <input 
+                class="checkboxLikeRadio" 
+                type="checkbox" 
+                name="authorization"
+                value="email"
+                onchange="toggleSlider(this, document.querySelector('.slider-email'))"
+                <%= authorization === 'email' ? 'checked' : '' %> 
+                >Anyone who enters an <strong>email address</strong> from a list that I specify
+              </label>
+              <div class="slider slider-email <%= authorization === 'emails' ? 'open' : ''%>">
+                <p>Enter the email addresses of all the people who can take your test</p>
+                <p style="font-size: 14px;">One email address per line</p>
+                <textarea 
+                type="text" 
+                name="emails"
+                value="<%= emails %>"
+                ></textarea>
+                <% if(errors.includes('emails')) { %>
+                  <p class="error">This field is required.</p>
+                <% } %>
+                <p><strong>Tips</strong>: If you want to allow all emails from a specific domain (like anything@mycompany.com), you can just enter: <strong>*@mycompany.com</strong>
+                  If you want to accept any email address, you can enter: *@*</p>
+                </div>
             </div>
           </div>
           <div class="grid-col-2">
@@ -248,20 +299,26 @@
             <label>
               <input 
               type="radio" 
-              name="time" 
+              name="duration" 
               value="unlimited"
+              <%= duration[0] === 'unlimited' ? 'checked' : '' %> 
               >Unlimited
             </label>
+            <% if(errors.includes('duration')) { %>
+              <p class="error">Please enter a time limit</p>
+            <% } %>
             <label>
               <input 
               type="radio" 
-              name="time" 
+              name="duration" 
               value="limited"
+              <%= duration[0] === 'limited' ? 'checked' : '' %> 
               >
               <input 
               type="text" 
-              name="time"
+              name="duration"
               onclick="checkOther(event)"
+              value="<%= duration[1] %>"
               >minutes
             </label>
             <h4>How many times can someone take your test?</h4>
@@ -270,19 +327,25 @@
               type="radio" 
               name="attempts" 
               value="unlimited"
+              <%= attempts[0] === 'unlimited' ? 'checked' : '' %>
               >Unlimited
             </label>
+            <% if(errors.includes('attempts')) { %>
+              <p class="error">Please enter the max number of times a student can take the test</p>
+            <% } %>
             <label for="attempts">
               <input 
               type="radio" 
               name="attempts"
               value="limited"
               id="attempts"
+              <%= attempts[0] === 'limited' ? 'checked' : '' %>
               >
               <input 
               type="text" 
               name="attempts" 
               onclick="checkOther(event)"
+              value="<%= attempts[1] %>"
               >times
             </label>
             </label>
@@ -295,12 +358,12 @@
         </div>
         <input 
         type="text" 
-        name="label" 
-        value="Enter your name" 
+        name="identifierInfo" 
+        value="<%= identifierInfo %>" 
         required
         >
       </fieldset>
-      <fieldset>
+      <!-- <fieldset>
         <legend>Browser Functionality</legend>
         <label><input type="checkbox" name="">Disable right-click context menu</label>
         <label><input type="checkbox" name="">Disable copy/paste</label>
@@ -317,95 +380,101 @@
       </fieldset>
       <fieldset>
         <legend>Notifications</legend>
-      </fieldset>
-      <button type="submit" style="margin-left: 50%;">Save</button>
+      </fieldset> -->
+      <div style="text-align: center;margin: 20px 0;">
+        <button type="submit" style="padding: 10px;font-size: large;">Save</button>
+      </div>
       
     </form>
     <script>
+      function handleSubmit(e) {
+        e.preventDefault()
+        const authorizations = Array.from(document.querySelectorAll('input[name="authorization"]'))
+        if(authorizations.slice(1).some(input => input.checked)) authorizations[0].remove()
+        e.target.submit()
+      }
+    </script>
+    <script>
       const themes = document.querySelectorAll('.themes label')
       const extraOptions = document.querySelector('.extra-options')
-      const wats = Array.from(document.querySelectorAll('.wat'))
+      const checkboxLikeRadios = Array.from(document.querySelectorAll('.checkboxLikeRadio'))
       
-      wats.forEach(input => input.addEventListener('click', e => {
-        if(input.checked) {
-          const cb = e.target
-          wats.forEach(wat => wat !== cb ? wat.checked = false : wat.checked = true)
+      checkboxLikeRadios.forEach(checkbox => checkbox.addEventListener('change', () => {
+        if(checkbox.checked) {
+          checkboxLikeRadios.forEach(checkbox2 => checkbox2 !== checkbox ? checkbox2.checked = false : '')
         }
       }))
-          
+
+      function toggleSlider(input, slider) {
+        if(input.checked) {
+          slider.classList.add('open')
+        } else {
+          slider.classList.remove('open')
+        }
+      }
+
+      function toggleCheckboxes(input, parent) {
+        const checkboxes = parent.querySelectorAll('input[type="checkbox"]')
+        checkboxes.forEach(checkbox => {
+          checkbox.disabled = !input.checked
+          checkbox.checked = input.checked
+        })
+      }
+
       function checkOther(e) {
         e.target.parentNode.querySelector('input[type="radio"]').checked = true
       }
 
-      function handleDisable(e) {
-        const extraCheckbox = Array.from(Array.from(e.target.parentNode.parentNode.children).pop().querySelectorAll('input[type="checkbox"]'))
-
-        if(e.target.checked) {
-          extraCheckbox.forEach(checkbox => checkbox.disabled = false)
-        } else {
-          extraCheckbox.forEach(checkbox => {
-            checkbox.checked = false
-            checkbox.disabled = true
-          })
-        }
-      }
-
-      function uncheckSiblings(checkbox) {
-        Array.from(checkbox.parentNode.parentNode.children)
-        .forEach(label => {
-          const sibling = label.querySelector('input[type="checkbox"]')
-          if(sibling && sibling !== checkbox) sibling.checked = false
-        })
-      }
-
-      function uncheckLast(checkbox) {
-        Array.from(checkbox.parentNode.parentNode.children).pop().querySelector('input[type="checkbox"]').checked = false
-      }
       
-      document.querySelector('label.active input').checked = true
-      themes.forEach(theme => theme.addEventListener('click', () => {
-        themes.forEach(theme => theme.classList.remove('active'))
-        theme.querySelector('input').checked = true
-        theme.classList.add('active')
-      }))
-      document.querySelectorAll('.themes a')
-      .forEach(link => link.addEventListener('click', e => e.preventDefault()))
     </script>
+    <script>
+      // function handleDisable(e) {
+      //   const extraCheckbox = Array.from(Array.from(e.target.parentNode.parentNode.children).pop().querySelectorAll('input[type="checkbox"]'))
 
+      //   if(e.target.checked) {
+      //     extraCheckbox.forEach(checkbox => checkbox.disabled = false)
+      //   } else {
+      //     extraCheckbox.forEach(checkbox => {
+      //       checkbox.checked = false
+      //       checkbox.disabled = true
+      //     })
+      //   }
+      // }
+
+      // function uncheckSiblings(checkbox) {
+      //   Array.from(checkbox.parentNode.parentNode.children)
+      //   .forEach(label => {
+      //     const sibling = label.querySelector('input[type="checkbox"]')
+      //     if(sibling && sibling !== checkbox) sibling.checked = false
+      //   })
+      // }
+
+      // function uncheckLast(checkbox) {
+      //   Array.from(checkbox.parentNode.parentNode.children).pop().querySelector('input[type="checkbox"]').checked = false
+      // }
+      
+      // document.querySelector('label.active input').checked = true
+      // themes.forEach(theme => theme.addEventListener('click', () => {
+      //   themes.forEach(theme => theme.classList.remove('active'))
+      //   theme.querySelector('input').checked = true
+      //   theme.classList.add('active')
+      // }))
+      // document.querySelectorAll('.themes a')
+      // .forEach(link => link.addEventListener('click', e => e.preventDefault()))
+    </script>
+    <script>
+      // document.querySelector('form').addEventListener('submit', e => {
+      //   e.preventDefault()
+      //   const settings = {}
+      //   document.que
+      // })
+    </script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/froala-editor@3.1.0/js/froala_editor.pkgd.min.js"></script>
     <script>
       new FroalaEditor('#fr-editor1, #fr-editor2, #fr-editor3, #fr-editor4', {
         toolbarButtons: [
           'bold', 'italic', 'underline', 'strikeThrough', 'superscript', 'subscript', '|', 'align', '|', 'formatOL','formatUL', 'outdent', 'indent', 'insertLink', '-', 'fontSize', 'color', 'clearFormatting', '|', 'insertImage', 'insertFile', 'noembed', 'mathjax', 'insertTable', '|', 'html'
         ],
-        pluginsEnabled: ['file', 'wordPaste', 'image', 'codeView', 'mathjax', 'noembed', 'lists', 'align', 'link',
-          'fontSize', 'colors', 'table'
-        ],
-        theme: 'dark',
-        wordPasteModal: false,
-        pastePlain: true,
-        linkAlwaysBlank: true,
-        linkEditButtons: ['linkOpen', 'linkEdit', 'linkRemove'],
-        htmlAllowedTags: ['a', 'abbr', 'address', 'area', 'article', 'aside', 'audio', 'b', 'base', 'bdi', 'bdo',
-          'blockquote', 'br', 'button', 'canvas', 'caption', 'cite', 'code', 'col', 'colgroup', 'datalist', 'dd',
-          'del', 'details', 'dfn', 'dialog', 'div', 'dl', 'dt', 'em', 'embed', 'fieldset', 'figcaption', 'figure',
-          'footer', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'header', 'hgroup', 'hr', 'i', 'iframe', 'img', 'input',
-          'ins', 'kbd', 'keygen', 'label', 'legend', 'li', 'link', 'main', 'map', 'mark', 'menu', 'menuitem',
-          'meter', 'nav', 'noscript', 'object', 'ol', 'optgroup', 'option', 'output', 'p', 'param', 'pre',
-          'progress', 'queue', 'rp', 'rt', 'ruby', 's', 'samp', 'script', 'style', 'section', 'select', 'small',
-          'source', 'span', 'strike', 'strong', 'sub', 'summary', 'sup', 'table', 'tbody', 'td', 'textarea',
-          'tfoot', 'th', 'thead', 'time', 'title', 'tr', 'track', 'u', 'ul', 'var', 'video', 'wbr'
-        ],
-        charCounterCount: false,
-        imageEditButtons: ['imageSize', 'imageAlign', 'imageReplace', 'imageRemove'],
-        imageDefaultAlign: 'left',
-        codeMirror: false,
-        heightMin: 20,
-        imageInsertButtons: ['imageByURL', '|', 'imageUpload'],
-        imageUploadRemoteUrls: false,
-        imageDefaultWidth: 0,
-        imageAddNewLine: true,
-        fileMaxSize: 15 * Math.pow(2, 20)
       })
     </script>
   </body>

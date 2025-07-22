@@ -1,0 +1,57 @@
+<html lang="en">
+  <%- include("./partials/head.ejs") %>
+
+  <body class="student-pg">
+    <script>history.replaceState(null, null, ' ');</script>
+      <div class="wrapper">
+        <div style="margin-top: 20px;display: flex;justify-content: space-between;">
+          <div>
+            <strong><%= name %></strong>
+            <p style="margin-top: 10px;"><strong>Your score: <%= locals.score %></strong></p>
+          </div>
+          <div>
+            <p><strong>Preview</strong></p>
+            <p><small><%= locals.finish %></small></p>
+          </div>
+        </div>
+        <% questions.forEach((question, i) => { %>
+          <div class="stud-ques">
+            <div class="row">          
+              <div class="together">
+                <div><strong><%= i + 1 %>.</strong></div>
+                <div class="stud-ques-name"><%- question.name %></div>
+              </div>
+              <% if(!question.type.includes('survey')) { %> 
+                <div class="stud-ques-points"><%= score %> / <%= question.points %> point</div>
+              <% } %> 
+            </div>
+            <div>
+              <div>Your Answer: 
+                <% if(locals.answers[i].correct === 'right') { %> 
+                  <span style="color: green;"><i class="fas fa-check"></i>Correct</span>
+                <% } else if(locals.answers[i].correct === 'wrong') { %>
+                    <span style="color: red;"><i class="fas fa-times"></i>Incorrect</span>
+                <% } else { %>
+                  <span class="testmoz-color">Partially</span>
+                <% } %> 
+              </div>
+              <% if(question.options) question.options.forEach(option => { %>
+                <label class="option">
+                  <span class="icon <%= locals.answers[i].correct === 'right' ? 'green' : 'red'%>">
+                    <i class="fas fa-<%= question.crctAns.includes(option) ? 'check' : 'times' %>"></i>
+                  </span>
+                  <input type="<%= question.type === 'mco' ? 'radio' : 'checkbox' %>" disabled>
+                  <div><%- option %></div>
+                </label>
+              <% }) %> 
+              <% if(question.type === 'survey-answer') { %>
+                <label for="answer">Answer: </label>
+                <input type="text" name="answer" id="answer">
+              <% } %>  
+            </div>
+          </div>
+        <% }) %> 
+      </div>
+      <button type="button" style="margin-top: 10px;padding: 5px;font-size: 16px;" name="logout" value="true"><a href="logout">Logout</a></button>
+  </body>
+</html>

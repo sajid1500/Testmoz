@@ -12,9 +12,9 @@
   <main class="content-wrapper-2">
     <section>
       <p>(If you paid for a membership, you should <a href="#">sign in</a> first)</p>
-      <form action="/:position/admin" method="POST">
-        <% if(error) { %>
-          <p class="error"><%= error %></p>
+      <form method="POST">
+        <% if(locals.errors && errors.includes('mismatch')) { %>
+          <p class="error">Passwords did not match</p>
         <% } %>
         <label>Test name (ex: Chapter 8 Test)</label>
         <input type="text" name="name" id="id_name" value required autofocus>

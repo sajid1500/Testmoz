@@ -1,5 +1,6 @@
 .right {
   max-width: 880px;
+  margin-top: 20px;
 }
 
 input[type="text"],
@@ -151,10 +152,17 @@ a h4 {
 }
 
 /* settings */
-fieldset {
+#settings-pg fieldset {
+  width: 100%;
   padding: 10px 20px 40px;
   border: none;
   background-color: #fff;
+}
+
+#settings-pg textarea {
+  width: 100%;
+  padding: 2px;
+  font-size: 16px;
 }
 
 legend {
@@ -181,7 +189,7 @@ form fieldset:nth-child(1) label {
   font-weight: 700;
 }
 
-.settings label {
+#settings-pg label {
   display: block;
   margin-top: 10px;
 }
@@ -278,20 +286,20 @@ form fieldset:nth-child(1) label {
   background-color: yellow;
 }
 
-.extra-options,
-.slider,
-.weird {
+/* 
+.show-slider:checked~.slider {
+  max-height: 1000px;
+} */
+
+.slider {
   max-height: 0;
+  margin-left: 20px;
   margin-top: 0;
   overflow: hidden;
   transition: max-height .6s ease;
 }
 
-.extra-options.open,
-.slider.open,
-.weird.open {
-
-  margin-top: 5px;
+#settings-pg .slider.open {
   max-height: 1000px;
 }
 
@@ -350,6 +358,12 @@ form fieldset:nth-child(1) label {
   height: 10px;
   background-color: black;
   transform: translateX(50%) rotate(45deg);
+}
+
+.access textarea {
+  height: 100px;
+  max-height: 100px;
+  resize: vertical;
 }
 
 .access .form-group {
@@ -475,12 +489,45 @@ form {
   color: gray;
 }
 
+.insert #save-form {
+  color: white;
+}
+
+.insert #save-form:hover {
+  cursor: pointer;
+}
+
 .ques {
   width: 100%;
   position: relative;
   padding: 25px 25px 25px 0;
   margin: 10px;
   background-color: white;
+}
+
+
+.shuffle {
+  position: relative;
+}
+
+.shuffle input {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+}
+
+.shuffle input:checked+i {
+  color: black;
+}
+
+.shuffle i {
+  color: lightgray;
+  margin-right: 10px;
+}
+
+.ques .name {
+  width: 100%;
 }
 
 .ques-mods {
@@ -586,6 +633,11 @@ form {
   background-color: rgba(226, 226, 226, 0.4);
 }
 
+.ques-pos,
+.move-option {
+  cursor: pointer;
+}
+
 .move-option {
   height: 100%;
   font-size: 12px;
@@ -638,7 +690,7 @@ form {
 
 /* student */
 
-.student-pg .wrapper {
+.student-pg form {
   width: 580px;
 }
 
@@ -666,6 +718,7 @@ form {
 }
 
 .stud-ques .option {
+  display: flex;
   margin-left: 20px;
 }
 
@@ -730,6 +783,9 @@ form {
 }
 
 @media only screen and (min-width: 768px) {
+  h1{
+    margin-bottom: 0;
+  }
   body {
     display: flex;
     flex-direction: row;
@@ -775,28 +831,12 @@ form {
     margin-right: 5px;
   }
 
+  .ques_row_col:first-child {
+    width: 100%;
+  }
+
   .ques_row_col div {
     margin-right: 20px;
-  }
-
-  .shuffle {
-    position: relative;
-  }
-
-  .shuffle input {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-  }
-
-  .shuffle input:checked+i {
-    color: black;
-  }
-
-  .shuffle i {
-    color: lightgray;
-    margin-right: 10px;
   }
 
   .ques-pos-left {

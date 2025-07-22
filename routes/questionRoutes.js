@@ -2,9 +2,12 @@ const dateFormat = require('dateformat');
 const express = require('express')
 const passport = require('passport')
 const asyncHandler = require('express-async-handler');
-const Test = require('../models/test');
+const nocache = require('nocache')
 
-const router = express.Router()
+const Test = require('../models/test');
+const router = express.Router({ mergeParams: true })
+
+router.use(nocache())
 
 const initializePassport = require('../config/passport')
 initializePassport(
@@ -13,55 +16,39 @@ initializePassport(
   id => Test.findById(id),
 )
 
-router.get('/:position', asyncHandler(async (req, res, next) => {
+router.get('/', asyncHandler(async (req, res, next) => {
   const testPos = req.params.position
-  const test = (await Test.findOne({ position: testPos })).toJSON()
+  const test = await Test.findOne({ position: testPos })
   const errors = req.flash('errors') || []
   const successes = req.flash('successes') || []
   const adminSuccesses = req.flash('adminSuccesses') || []
-  if (test) {
-    res.render('test/login', { ...test, testPos, errors, successes, adminSuccesses })
-  } else {
-    next()
-  }
+  res.render('test/login', { ...test.toJSON(), ...test.settings.toJSON(), errors, successes, adminSuccesses })
 }))
 
-router.post('/:position', asyncHandler(async (req, res, next) => {
-  req.session.studName = req.body.studName
-  console.log('object')
+router.post('/', asyncHandler(async (req, res, next) => {
+  req.session.studId = req.body.studId
   res.redirect(`/q/${req.params.position}/student`)
 }))
 
-router.post('/:position/admin', passport.authenticate('local', { failureRedirect: 'back', failureFlash: true, }), (req, res) => {
+router.post('/admin', passport.authenticate('local', { failureRedirect: 'back', failureFlash: true, }), (req, res) => {
   res.redirect(`/${req.params.position}/admin`)
 })
 
-router.get('/:position/student', asyncHandler(async (req, res, next) => {
+router.get('/student', checkStudentLoggedIn, asyncHandler(async (req, res, next) => {
   const testPos = req.params.position
-  const test = (await Test.findOne({ position: testPos })).toJSON()
-  if (test) {
-    res.render('test/student', { ...test, testPos, start: Date.now() })
-  } else {
-    next()
-  }
+  const test = await Test.findOne({ position: testPos })
+  test.questions = test.questions.filter(question => !question.type.includes('survey'))
+  res.render('test/student', { ...test.toJSON(), testPos, start: Date.now() })
 }))
 
 const twoDecimal = value => {
   const numOfDecim = value % 1 !== 0 ? value.toString().split(".")[1].length : 0
   return numOfDecim > 2 ? value.toFixed(2) : value
 };
-router.post('/:position/student', asyncHandler(async (req, res, next) => {
+
+router.post('/student', asyncHandler(async (req, res, next) => {
   const test = await Test.findOne({ position: req.params.position })
-  if (req.body.logout) {
-    req.flash('successes', 'You are now logged out')
-    res.redirect(`/${req.params.position}`)
-    return
-  }
-  if (!req.body.studAns && test) {
-    console.log(req.body)
-    res.render('test/student', { ...test.toJSON(), returned: true })
-    return;
-  }
+  const attempted = ++test.students.filter(student => student.id === req.session.studId).length
   const studAnswers = req.body.studAnswers.map(studAns => typeof studAns === 'string' ? [studAns] : studAns)
   let now = new Date()
   const quesPoints = test.questions.map(question => parseInt(question.points))
@@ -93,13 +80,23 @@ router.post('/:position/student', asyncHandler(async (req, res, next) => {
   req.session.studName = null
   req.session.start = null
   test.students.unshift(student)
-  console.log(req.body)
   await test.save()
-  if (test) {
-    res.render('test/student', { ...test.toJSON(), finish: dateFormat(student.finish, 'mmmm d, yyyy, h:MM tt'), score: student.score, answers: student.answers, studPoints, returned })
-  } else {
-    next()
-  }
+  res.redirect(`q/${req.params.position}/student/review`)
 }))
+
+router.get('/student/review', (req, res) => {
+
+})
+
+router.get('/student/review/logout', (req, res) => {
+  req.session.studId = null
+  req.flash('success', 'You are now logged out')
+  res.redirect(`/${req.params.position}?logout`)
+})
+
+function checkStudentLoggedIn(req, res, next) {
+  if (req.session.studId) return next()
+  res.redirect(`/q/${req.params.position}`)
+}
 
 module.exports = router

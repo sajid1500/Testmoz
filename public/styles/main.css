@@ -1,8 +1,10 @@
 .btn-link {
   border-radius: 5px;
-  background-color: #8ED803;
+  background-color: var(--accent-color);
 }
-
+.btn-link:hover {
+  cursor: pointer;
+}
 .btn-link:hover {
   text-decoration: underline;
 }
@@ -12,10 +14,14 @@
 nav {
   display: flex;
   justify-content: center;
+  align-items: end;
   flex-wrap: wrap;
   margin: 40px 20px 0;
-}  
-
+}
+.examify-logo {
+   font-family: 'Montserrat';
+  color: var(--secondary-color);
+}
 nav ul {
   display: flex;
   justify-content: space-around;
@@ -40,7 +46,7 @@ nav ul a.btn-link {
 }
 
 nav ul a:not(.btn-link):hover {
-  border-bottom: 5px solid #F99625;
+  border-bottom: 5px solid var(--secondary-color);
   border-radius: 5px;
 }
 
@@ -49,6 +55,7 @@ header {
   display: flex;
   flex-direction: column;
   align-items: center;
+  max-width: 800px;
 }
 
 header h1 {
@@ -58,41 +65,51 @@ header h1 {
 header p {
   font-size: 22px;
 }
-
-header .one-line {
+.landing-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   margin-top: 60px;
 }
 
-header .one-line a{
+.landing-buttons a {
+  display: block;
+  width: 100%;
   padding: 10px;
-  margin: 0 8px;
+  margin: 5px 8px;
+  text-align: center;
   font-size: 18px;
   font-weight: 700;
 }
-
-header .one-line a:last-of-type{
+.btn-demo-test {
   background-color: #999999;
 }
-
-header a.watch-a-demo {
+.btn-watch-demo {
   border-bottom: 1px dotted;
   margin-top: 25px;
 }
-
-header a.watch-a-demo:hover {
+a.btn-watch-demo:hover {
   border: none;
 }
 
+.screen {
+  display: none;
+}
 /* sections */
 .content-wrapper {
-  border-top: 5px solid #F99625;
-  border-bottom: 5px solid #F99625;
+  border-top: 5px solid var(--secondary-color);
+  border-bottom: 5px solid var(--secondary-color);
   padding-top: 40px;
   margin: 40px 10px 0;
-  background-color: #EFEFEF;
+  background-color: #efefef;
   color: black;
 }
 
+.steps {
+  display: flex; 
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
 .steps {
   margin: 20px 20px;
 }
@@ -114,7 +131,7 @@ header a.watch-a-demo:hover {
   font-size: 18px;
 }
 
-.results-pg p{
+.results-pg p {
   margin: 10px 20px 0;
 }
 
@@ -141,14 +158,14 @@ header a.watch-a-demo:hover {
 .features ul li:before {
   margin-top: 5px;
   position: absolute;
-  content: '';
+  content: "";
   padding-right: 10px;
   left: -20px;
   display: inline-block;
   width: 16px;
   height: 16px;
   background-image: url(https://source.unsplash.com/gYl-UtwNg_I/1500x1500);
-  background-color: #8ED803;
+  background-color: var(--accent-color);
   background-repeat: no-repeat;
   background-size: 16px 16px;
 }
@@ -192,4 +209,57 @@ main form .row {
   justify-content: space-between;
   margin-top: 20px;
 }
+@media only screen and (min-width: 600px) {
+  .landing-buttons a {
+    width: 40%;
+  }
+}
+@media only screen and (min-width: 768px) {
+  h1 {
+    margin-bottom: 0;
+  }
+  .screen {
+    display: block;
+  }
+  header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .landing-buttons a {
+    width: auto;
+  } 
+  .steps {
+    flex-wrap: nowrap;
+  }
+  head .right {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-left: 50px;
+  }
 
+  .ques_row_col {
+    display: flex;
+    align-items: center;
+    margin-right: 5px;
+  }
+
+  .ques_row_col:first-child {
+    width: 100%;
+  }
+
+  .ques_row_col div {
+    margin-right: 20px;
+  }
+
+  .ques-pos-left {
+    display: flex;
+  }
+
+  .ques-pos-right {
+    display: none;
+  }
+}

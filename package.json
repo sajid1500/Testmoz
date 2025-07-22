@@ -4,6 +4,9 @@
   "description": "",
   "main": "app.js",
   "dependencies": {
+    "@ckeditor/ckeditor5-basic-styles": "^27.1.0",
+    "babel-cli": "^6.26.0",
+    "babel-preset-react-app": "^3.1.2",
     "connect-flash": "^0.1.1",
     "dateformat": "^4.5.1",
     "ejs": "^3.1.5",
@@ -15,7 +18,10 @@
     "morgan": "^1.10.0",
     "nocache": "^2.1.0",
     "passport": "^0.4.1",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "validator": "^13.6.0",
+    "webpack": "^5.54.0",
+    "webpack-cli": "^4.8.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
